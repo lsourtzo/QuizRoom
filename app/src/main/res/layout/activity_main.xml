@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lsourtzo.app.photoquiz.MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wallpaper_vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <ImageView
+                style="@style/title"
+                android:layout_weight="0.3"
+                android:src="@drawable/title"
+                android:layout_gravity="center"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/marginframe"
+                android:layout_marginRight="@dimen/marginframe"
+                android:layout_marginBottom="@dimen/marginmedium"
+                android:layout_marginTop="@dimen/marginsmall"
+                android:background="@color/questionbackcolor">
+
+                <ScrollView
+                    android:id="@+id/RadioGroupLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/RadioGroupQuestion"
+                            style="@style/textbox"
+                            />
+
+                        <RadioGroup
+                            android:id="@+id/QuestionRadioGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <RadioButton
+                                android:id="@+id/radiobutton_1"
+                                style="@style/checkradiobox"/>
+
+                            <RadioButton
+                                android:id="@+id/radiobutton_2"
+                                style="@style/checkradiobox"/>
+
+                            <RadioButton
+                                android:id="@+id/radiobutton_3"
+                                style="@style/checkradiobox"/>
+
+                            <RadioButton
+                                android:id="@+id/radiobutton_4"
+                                style="@style/checkradiobox"
+                                android:layout_marginBottom="@dimen/marginlarge"/>
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/CheckBoxLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/CheckBoxQuestion"
+                            style="@style/textbox"/>
+
+                        <CheckBox
+                            android:id="@+id/checkbox_1"
+                            style="@style/checkradiobox"/>
+
+                        <CheckBox
+                            android:id="@+id/checkbox_2"
+                            style="@style/checkradiobox"/>
+
+                        <CheckBox
+                            android:id="@+id/checkbox_3"
+                            style="@style/checkradiobox"/>
+
+                        <CheckBox
+                            android:id="@+id/checkbox_4"
+                            style="@style/checkradiobox"
+                            android:layout_marginBottom="@dimen/marginlarge"/>
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/EditTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/EditTextQuestion"
+                            style="@style/textbox"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"/>
+
+
+                        <EditText
+                            android:id="@+id/EditBox"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="@dimen/marginlarge"
+                            style="@style/edittextbox"
+                            android:hint="@string/AnswearHere"/>
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/StartupLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/marginmedium">
+
+                        <TextView
+                            style="@style/textbox3"
+                            android:text="@string/WelcomeText"
+                            />
+
+                        <TextView
+                            style="@style/textbox3"
+                            android:text="@string/NameTitle"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            />
+                        <requestFocus />
+
+                        <EditText
+                            android:id="@+id/NameText"
+                            android:textAllCaps="true"
+                            android:hint="@string/NameText"
+                            android:maxLength="20"
+                            style="@style/edittextbox" />
+
+                    </LinearLayout>
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/FinalResultLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/marginlarge"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/FinalResaltText"
+                            android:gravity="center_horizontal"
+                            style="@style/textbox2"
+                            android:text="@string/ScoreTableTitle"
+                            />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/FinalResaltNames"
+                            android:gravity="left"
+                            style="@style/scoretabletextbox"
+                            />
+
+                        <TextView
+                            android:id="@+id/FinalResaltScore"
+                            android:gravity="right"
+                            style="@style/scoretabletextbox"
+                            />
+
+                    </RelativeLayout>
+
+                    </LinearLayout>
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/StageLayers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/StageLayersText"
+                            android:gravity="center_horizontal|center_vertical"
+                            style="@style/textbox"
+                            />
+
+                    </LinearLayout>
+                </ScrollView>
+
+                <ImageView
+                    style="@style/OKButton"
+                    android:src="@drawable/okbutton"
+                    android:onClick="OKButtonMethod"/>
+
+                <ImageView
+                    android:id="@+id/correct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/marginvlarge"
+                    android:layout_marginRight="@dimen/marginvlarge"
+                    android:src="@drawable/correct"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/wrong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/marginvlarge"
+                    android:layout_marginRight="@dimen/marginvlarge"
+                    android:src="@drawable/wrong"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/Photo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/paint" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/frame" />
+
+                    </RelativeLayout>
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="0.8"
+                        android:scaleType="fitEnd"
+
+                        android:src="@drawable/couch" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5">
+
+                        <ImageView
+                            android:id="@+id/clock1"
+                            style="@style/anime"
+                            android:visibility="visible"
+                            android:layout_margin="@dimen/marginsmall"
+                            android:src="@drawable/cl12" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.5"
+                        android:gravity="bottom"
+                        android:orientation="vertical">
+
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitEnd"
+                            android:src="@drawable/lamp" />
+
+                        <ImageView
+                            android:id="@+id/radio"
+                            style="@style/anime"
+                            android:visibility="gone"
+                            android:src="@drawable/table_radio_trans"
+                            android:onClick="OnRadioButtonPressed"/>
+
+
+                        <ImageView
+                            android:id="@+id/radio2"
+                            style="@style/anime"
+                            android:src="@drawable/table_radio"
+                            android:visibility="visible"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/bottomtext"
+        android:textSize="@dimen/questiontextsize"
+        android:background="@color/bottombar"
+        android:paddingLeft="@dimen/marginsmall"
+        android:layout_alignParentLeft="true"
+        android:text="Created By :"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/bottomtext"
+        android:textSize="@dimen/questiontextsize"
+        android:paddingRight="@dimen/marginsmall"
+        android:layout_alignParentRight="true"
+        android:text="Sourtzopoulo Leonida"/>
+
+
+
+</RelativeLayout>

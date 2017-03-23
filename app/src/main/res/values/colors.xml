@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+    <color name="textboxbackground">#c0dfff</color>
+
+    <color name="titleColor">#e55e3807</color>
+
+    <color name="QuestionColor">#e55e3807</color>
+
+    <color name="questionbackcolor">#baffffff</color>
+
+    <color name="bottombar">#b95e3807</color>
+    <color name="bottomtext">#FFFFFF</color>
+
+</resources>

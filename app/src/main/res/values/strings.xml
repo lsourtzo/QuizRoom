@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name" translatable="false">QuizRoom</string>
+    <string name="quiz_room" translatable="false">QUIZ-R00M</string>
+    <string name="WelcomeText">Welcome in our QUIZ-ROOM. Are you ready to test your knowledge? \nComputer science, music, geography, science, zoology are only few of our categories that will test your ability to answer. \nBe aware, your wrong answers are not unlimited, just like your time to answer. Good luck.</string>
+    <string name="NameText">Name </string>
+    <string name="AnswearHere">Please write your answer here. </string>
+    <string name="NameTitle">Please write your name in bellow text box: </string>
+    <string name="ScoreTableTitle">Score Table \n Top 10 !</string>
+
+    <string name="Stage1">Next Level: 1  \n\nTo continue to the next level you have to answer correctly in 2 of 5 questions in 60 seconds!</string>
+    <string name="Stage2">Nice work!\n\nNext Level: 2  \n\nTo continue to the next level you have to answer correctly in 2 of 5 questions in 55 seconds!</string>
+    <string name="Stage3">Excellent!\n\nNext Level: 3  \n\nTo continue to the next level you have to answer correctly in 3 of 5 questions in 55 seconds!</string>
+    <string name="Stage4">Super!\n\nNext Level: 4  \n\nTo continue to the next level you have to answer correctly in 3 of 5 questions in 50 seconds!</string>
+    <string name="Stage5">Incredible!\n\nNext Level: 5 \n\nTo continue to the next level you have to answer correctly in 4 of 5 questions in 50 seconds!</string>
+    <string name="Stage6">You are on fire!\n\nNext Level: 6 \n\nTo continue to the next level you have to answer correctly in 4 of 5 questions in 45 seconds!</string>
+    <string name="Stage7">God-like!\n\nNext Level: 7 \n\nTo finish and earn the 100 point bonus you have to answer correctly in 5 of 5 questions in 40 seconds!</string>
+
+    <string name="TotalScore">Total Score:</string>
+    <string name="Score">Score Table</string>
+    <string name="TimeBonus">Time Bonus:</string>
+    <string name="QuestionLevelTotal">Round Score:</string>
+    <string name="Points">" Points"</string>
+    <string name="Sec">" sec"</string>
+    <string name="SecondsLeft"> Seconds Left: </string>
+    <string name="ReadyForNextLevel">Ready for the next level?</string>
+    <string name="GameOver">"Game Over! "</string>
+    <string name="Final">Unbelievable !</string>
+
+    <string name="CreatedBy">"Created By :"</string>
+    <string name="Myname">Sourtzopoylo Leonida</string>
+
+</resources>
