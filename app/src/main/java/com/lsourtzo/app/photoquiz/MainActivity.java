@@ -1,15 +1,11 @@
 package com.lsourtzo.app.photoquiz;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -22,31 +18,15 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
+//import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
-import java.util.logging.Level;
 
-
-import static android.R.attr.data;
-import static android.R.attr.id;
-import static android.R.attr.x;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-import static com.lsourtzo.app.photoquiz.R.id.radiobutton_1;
-import static com.lsourtzo.app.photoquiz.R.id.radiobutton_2;
-import static com.lsourtzo.app.photoquiz.R.id.radiobutton_3;
-import static com.lsourtzo.app.photoquiz.R.id.radiobutton_4;
-import static java.security.AccessController.getContext;
+import static com.lsourtzo.app.photoquiz.R.anim.zoom;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -97,6 +77,36 @@ public class MainActivity extends AppCompatActivity {
 
     String QuestionLangSet;
 
+    // initializing views
+    ScrollView svStartupLayout;
+    ScrollView svRadioGroupLayout;
+    ScrollView svCheckBoxLayout;
+    ScrollView svEditTextLayout;
+    ScrollView svFinalResultLayout;
+    ScrollView svStageLayers;
+    ImageView svradio;
+    ImageView svradio2;
+    ImageView svwrong;
+    ImageView svcorrect;
+    TextView svFinalResaltScore;
+    TextView svFinalResaltNames;
+    TextView svStageLayersText;
+    TextView svEditTextQuestion;
+    TextView svCheckBoxQuestion;
+    TextView svRadioGroupQuestion;
+    EditText svEditBox;
+    EditText svNameText;
+    RadioButton svradiobutton_1;
+    RadioButton svradiobutton_2;
+    RadioButton svradiobutton_3;
+    RadioButton svradiobutton_4;
+    RadioGroup svQuestionRadioGroup;
+    CheckBox svcheckbox_1;
+    CheckBox svcheckbox_2;
+    CheckBox svcheckbox_3;
+    CheckBox svcheckbox_4;
+    ImageView svPhoto;
+    ImageView svclock1;
 
     //// Where our porgram start.
 
@@ -105,6 +115,40 @@ public class MainActivity extends AppCompatActivity {
         CheckLanguageMehtod();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // initializing views
+        svStartupLayout = (ScrollView) findViewById(R.id.StartupLayout);
+        svRadioGroupLayout = (ScrollView) findViewById(R.id.RadioGroupLayout);
+        svCheckBoxLayout = (ScrollView) findViewById(R.id.CheckBoxLayout);
+        svEditTextLayout = (ScrollView) findViewById(R.id.EditTextLayout);
+        svFinalResultLayout = (ScrollView) findViewById(R.id.FinalResultLayout);
+        svStageLayers = (ScrollView) findViewById(R.id.StageLayers);
+        svradio = (ImageView) findViewById(R.id.radio);
+        svradio2 = (ImageView) findViewById(R.id.radio2);
+        svwrong = (ImageView) findViewById(R.id.wrong);
+        svcorrect = (ImageView) findViewById(R.id.correct);
+        svFinalResaltScore = (TextView) findViewById(R.id.FinalResaltScore);
+        svFinalResaltNames = (TextView) findViewById(R.id.FinalResaltNames);
+        svStageLayersText = (TextView) findViewById(R.id.StageLayersText);
+        svEditTextQuestion = (TextView) findViewById(R.id.EditTextQuestion);
+        svCheckBoxQuestion = (TextView) findViewById(R.id.CheckBoxQuestion);
+        svRadioGroupQuestion = (TextView) findViewById(R.id.RadioGroupQuestion);
+        svEditBox = (EditText) findViewById(R.id.EditBox);
+        svNameText = (EditText) findViewById(R.id.NameText);
+        svradiobutton_1 = (RadioButton) findViewById(R.id.radiobutton_1);
+        svradiobutton_2 = (RadioButton) findViewById(R.id.radiobutton_2);
+        svradiobutton_3 = (RadioButton) findViewById(R.id.radiobutton_3);
+        svradiobutton_4 = (RadioButton) findViewById(R.id.radiobutton_4);
+        svQuestionRadioGroup = (RadioGroup) findViewById(R.id.QuestionRadioGroup);
+        svcheckbox_1 = (CheckBox) findViewById(R.id.checkbox_1);
+        svcheckbox_2 = (CheckBox) findViewById(R.id.checkbox_2);
+        svcheckbox_3 = (CheckBox) findViewById(R.id.checkbox_3);
+        svcheckbox_4 = (CheckBox) findViewById(R.id.checkbox_4);
+        svPhoto = (ImageView) findViewById(R.id.Photo);
+        svclock1 = (ImageView) findViewById(R.id.clock1);
+
+        //we will override the application class to enable Firebase's offline mode before any database references are used (FirebaseDemoApplication.java)
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         // this return the total number of file that there is in to local txt file
         try {
@@ -236,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         if (onrestore) {
             onrestore = false;
         }
-        UnFocusEditText(R.id.NameText);
+        UnFocusEditText(svNameText);
     }
 
     // time restore after orientation changed or close screen
@@ -269,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //creating random question answer
+    //creating random question answers
     public void CreateRandomAnswearList() {
         ArrayList<Integer> a = new ArrayList<>();
         for (int i = 2; i <= 5; i++) { //to generate from 0-10 inclusive.
@@ -299,10 +343,9 @@ public class MainActivity extends AppCompatActivity {
         input.close();
     }
 
-    // This method split  the question in to QuestionArray
+    // This method give me the next question
     // @NQN = Next Question Number
     public void GetQuestionInToArray(int NQN) throws IOException {
-        Log.d("QuestionArrayFill", "RandomQuestionNumber[NQN - 1] - 1 = " + (NQN - 2));
         QuestionArray = QuestionsArrayList.get(RandomQuestionNumber[NQN - 1] - 1);
     }
 
@@ -316,8 +359,8 @@ public class MainActivity extends AppCompatActivity {
             case 0: // StartupScreen
                 LevelNumber = 1;
                 timehasend = true;
-                PlayerName = EdittTextReturn(R.id.NameText);
-                UnFocusEditText(R.id.NameText);
+                PlayerName = EdittTextReturn(svNameText);
+                UnFocusEditText(svNameText);
                 CheckLevel();
                 break;
             case 1: // RadioButton Screen
@@ -333,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
             case 3: // EditText Screen
                 CheckEditTextAnswer();
                 UnCheckText();
-                UnFocusEditText(R.id.EditBox);
+                UnFocusEditText(svEditBox);
                 NextQuestion();
                 break;
             case 4: // Final Results Screen
@@ -359,19 +402,18 @@ public class MainActivity extends AppCompatActivity {
 
     //this method will be se visibility in layers as gone to set app ready for next question
     public void hidealllayers() {
-        ScrollViewGone(R.id.StartupLayout);
-        ScrollViewGone(R.id.RadioGroupLayout);
-        ScrollViewGone(R.id.CheckBoxLayout);
-        ScrollViewGone(R.id.EditTextLayout);
-        ScrollViewGone(R.id.FinalResultLayout);
-        ScrollViewGone(R.id.StageLayers);
+        ScrollViewGone(svStartupLayout);
+        ScrollViewGone(svRadioGroupLayout);
+        ScrollViewGone(svCheckBoxLayout);
+        ScrollViewGone(svEditTextLayout);
+        ScrollViewGone(svFinalResultLayout);
+        ScrollViewGone(svStageLayers);
     }
 
     // this methode check RADIO  answeR ..
     public void CheckRadioAnswer() throws InterruptedException {
         String ans = "0";
-        RadioGroup SelectionRadio = (RadioGroup) findViewById(R.id.QuestionRadioGroup);
-        switch (SelectionRadio.getCheckedRadioButtonId()) {
+        switch (svQuestionRadioGroup.getCheckedRadioButtonId()) {
             case R.id.radiobutton_1:
                 ans = Integer.toString(AnswearArray[0] - 1);
                 break;
@@ -401,32 +443,28 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ca = 2;
         }
-        CheckBox CB1 = (CheckBox) findViewById(R.id.checkbox_1);
-        if (CB1.isChecked()) {
+        if (svcheckbox_1.isChecked()) {
             if ((QuestionArray[9].equals(Integer.toString(AnswearArray[0] - 1))) || (QuestionArray[10].equals(Integer.toString(AnswearArray[0] - 1)))) {
                 counter = counter + 1;
             } else {
                 counter = counter - 10;
             }
         }
-        CheckBox CB2 = (CheckBox) findViewById(R.id.checkbox_2);
-        if (CB2.isChecked()) {
+        if (svcheckbox_2.isChecked()) {
             if ((QuestionArray[9].equals(Integer.toString(AnswearArray[1] - 1))) || (QuestionArray[10].equals(Integer.toString(AnswearArray[1] - 1)))) {
                 counter = counter + 1;
             } else {
                 counter = counter - 10;
             }
         }
-        CheckBox CB3 = (CheckBox) findViewById(R.id.checkbox_3);
-        if (CB3.isChecked()) {
+        if (svcheckbox_3.isChecked()) {
             if ((QuestionArray[9].equals(Integer.toString(AnswearArray[2] - 1))) || (QuestionArray[10].equals(Integer.toString(AnswearArray[2] - 1)))) {
                 counter = counter + 1;
             } else {
                 counter = counter - 10;
             }
         }
-        CheckBox CB4 = (CheckBox) findViewById(R.id.checkbox_4);
-        if (CB4.isChecked()) {
+        if (svcheckbox_4.isChecked()) {
             if ((QuestionArray[9].equals(Integer.toString(AnswearArray[3] - 1)) || (QuestionArray[10].equals(Integer.toString(AnswearArray[3] - 1))))) {
                 counter = counter + 1;
             } else {
@@ -442,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
 
     // this methode check EditText answer ..
     public void CheckEditTextAnswer() throws InterruptedException {
-        String ET2 = EdittTextReturn(R.id.EditBox);
+        String ET2 = EdittTextReturn(svEditBox);
         if (ET2.equals(QuestionArray[9]) || ET2.equals(QuestionArray[10])) {
             CorrectAnswear();
         } else {
@@ -454,7 +492,7 @@ public class MainActivity extends AppCompatActivity {
     public void CorrectAnswear() throws InterruptedException {
         RadioAudioStop();
         RadioAudioStart2("correct");
-        AnswearAnimation(R.id.correct);
+        AnswearAnimation(svcorrect);
         CNumber = CNumber + 1;
         LevelQuestionsScore = LevelQuestionsScore + Integer.parseInt(QuestionArray[11]);
     }
@@ -462,7 +500,7 @@ public class MainActivity extends AppCompatActivity {
     public void WrongAnswear() throws InterruptedException {
         RadioAudioStop();
         RadioAudioStart2("wrong");
-        AnswearAnimation(R.id.wrong);
+        AnswearAnimation(svwrong);
     }
 
 
@@ -499,12 +537,12 @@ public class MainActivity extends AppCompatActivity {
     // This Method Apply question in Radio Question Layout
     public void SetRadioQuestion() {
         Qtype = 1;
-        ScrollViewVis(R.id.RadioGroupLayout);
-        SetTextView(QNumber + ". " + QuestionArray[1], R.id.RadioGroupQuestion);
-        SetRadioButton(QuestionArray[AnswearArray[0]], radiobutton_1);
-        SetRadioButton(QuestionArray[AnswearArray[1]], radiobutton_2);
-        SetRadioButton(QuestionArray[AnswearArray[2]], radiobutton_3);
-        SetRadioButton(QuestionArray[AnswearArray[3]], radiobutton_4);
+        ScrollViewVis(svRadioGroupLayout);
+        SetTextView(QNumber + ". " + QuestionArray[1], svRadioGroupQuestion);
+        SetRadioButton(QuestionArray[AnswearArray[0]], svradiobutton_1);
+        SetRadioButton(QuestionArray[AnswearArray[1]], svradiobutton_2);
+        SetRadioButton(QuestionArray[AnswearArray[2]], svradiobutton_3);
+        SetRadioButton(QuestionArray[AnswearArray[3]], svradiobutton_4);
         CheckMediatype();
 
     }
@@ -512,20 +550,20 @@ public class MainActivity extends AppCompatActivity {
     // This Method Apply question in CheckBox Question Layout
     public void SetCheckBoxQuestion() {
         Qtype = 2;
-        ScrollViewVis(R.id.CheckBoxLayout);
-        SetTextView(QNumber + ". " + QuestionArray[1], R.id.CheckBoxQuestion);
-        SetCheckBox(QuestionArray[AnswearArray[0]], R.id.checkbox_1);
-        SetCheckBox(QuestionArray[AnswearArray[1]], R.id.checkbox_2);
-        SetCheckBox(QuestionArray[AnswearArray[2]], R.id.checkbox_3);
-        SetCheckBox(QuestionArray[AnswearArray[3]], R.id.checkbox_4);
+        ScrollViewVis(svCheckBoxLayout);
+        SetTextView(QNumber + ". " + QuestionArray[1], svCheckBoxQuestion);
+        SetCheckBox(QuestionArray[AnswearArray[0]], svcheckbox_1);
+        SetCheckBox(QuestionArray[AnswearArray[1]], svcheckbox_2);
+        SetCheckBox(QuestionArray[AnswearArray[2]], svcheckbox_3);
+        SetCheckBox(QuestionArray[AnswearArray[3]], svcheckbox_4);
         CheckMediatype();
     }
 
     // This Method Apply question in EditText Question Layout
     public void SetEditTextQuestion() {
         Qtype = 3;
-        ScrollViewVis(R.id.EditTextLayout);
-        SetTextView(QNumber + ". " + QuestionArray[1], R.id.EditTextQuestion);
+        ScrollViewVis(svEditTextLayout);
+        SetTextView(QNumber + ". " + QuestionArray[1], svEditTextQuestion);
         CheckMediatype();
     }
 
@@ -542,14 +580,14 @@ public class MainActivity extends AppCompatActivity {
                 LevelTime = 60000;
                 TotalScore = 0;
                 LevelQuestionsScore = 0;
-                SetTextView(getString(R.string.Stage1), R.id.StageLayersText);
-                ScrollViewVis(R.id.StageLayers);
+                SetTextView(getString(R.string.Stage1), svStageLayersText);
+                ScrollViewVis(svStageLayers);
                 Qtype = 5;
                 break;
             case 2://Stage 2 2/5 55sec
                 LevelTime = 55000; // next level time
                 if (CNumber >= 2) {
-                    Pass(R.string.Stage2, 5);
+                    Pass(R.string.Stage2, 0);
                 } else {
                     Cut(5);
                 }
@@ -557,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
             case 3://Stage 3 3/5 55sec
                 LevelTime = 55000;// next level time
                 if (CNumber >= 2) {
-                    Pass(R.string.Stage3, 4);
+                    Pass(R.string.Stage3, 1);
                 } else {
                     Cut(4);
                 }
@@ -565,7 +603,7 @@ public class MainActivity extends AppCompatActivity {
             case 4://Stage 4 3/5 50sec
                 LevelTime = 50000;// next level time
                 if (CNumber >= 3) {
-                    Pass(R.string.Stage4, 4);
+                    Pass(R.string.Stage4, 1);
                 } else {
                     Cut(4);
                 }
@@ -573,7 +611,7 @@ public class MainActivity extends AppCompatActivity {
             case 5://Stage 5 4/5 50sec
                 LevelTime = 50000;// next level time
                 if (CNumber >= 3) {
-                    Pass(R.string.Stage5, 3);
+                    Pass(R.string.Stage5, 2);
                 } else {
                     Cut(3);
                 }
@@ -589,7 +627,7 @@ public class MainActivity extends AppCompatActivity {
             case 7://Stage 7 5/5 40sec
                 LevelTime = 40000;// next level time
                 if (CNumber >= 4) {
-                    Pass(R.string.Stage7, 1);
+                    Pass(R.string.Stage7, 3);
                 } else {
                     Cut(1);
                 }
@@ -614,11 +652,11 @@ public class MainActivity extends AppCompatActivity {
         String DisplayText = getString(val) + "\n\n" +
                 getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
                 getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
-                getString(R.string.TimeBonus) + sec / timesd + " " + getString(R.string.Points) + "\n" +
+                getString(R.string.TimeBonus) + sec * timesd + " " + getString(R.string.Points) + "\n" +
                 getString(R.string.TotalScore) + TotalScore + "\n";
         Qtype = 5;
-        SetTextView(DisplayText, R.id.StageLayersText);
-        ScrollViewVis(R.id.StageLayers);
+        SetTextView(DisplayText, svStageLayersText);
+        ScrollViewVis(svStageLayers);
         RadioAudioStart("win2");
     }
 
@@ -628,39 +666,39 @@ public class MainActivity extends AppCompatActivity {
         String DisplayText = getString(R.string.GameOver) + "\n\n" +
                 getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
                 getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
-                getString(R.string.TimeBonus) + sec / timesd + " " + getString(R.string.Points) + "\n" +
+                getString(R.string.TimeBonus) + sec * timesd + " " + getString(R.string.Points) + "\n" +
                 getString(R.string.TotalScore) + TotalScore + "\n";
         Qtype = 6;
-        SetTextView(DisplayText, R.id.StageLayersText);
-        ScrollViewVis(R.id.StageLayers);
+        SetTextView(DisplayText, svStageLayersText);
+        ScrollViewVis(svStageLayers);
         RadioAudioStart("gameover");
     }
 
     // when we Finish all levell
     public void FinalPass() {
-        TotalScoreCalculator(1, 100);
+        TotalScoreCalculator(4, 300);
         String DisplayText = getString(R.string.Final) + "\n\n" +
                 getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
                 getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
                 getString(R.string.TimeBonus) + sec + " " + getString(R.string.Points) + "\n" +
                 getString(R.string.TotalScore) + TotalScore + "\n";
         Qtype = 6;
-        SetTextView(DisplayText, R.id.StageLayersText);
-        ScrollViewVis(R.id.StageLayers);
+        SetTextView(DisplayText, svStageLayersText);
+        ScrollViewVis(svStageLayers);
         RadioAudioStart("win");
     }
 
     // when we cut off in last Level
     public void FinalCut() {
-        TotalScoreCalculator(1, 0);
+        TotalScoreCalculator(4, 0);
         String DisplayText = getString(R.string.GameOver) + "\n\n" +
                 getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
                 getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
                 getString(R.string.TimeBonus) + sec + " " + getString(R.string.Points) + "\n" +
                 getString(R.string.TotalScore) + TotalScore + "\n";
         Qtype = 6;
-        SetTextView(DisplayText, R.id.StageLayersText);
-        ScrollViewVis(R.id.StageLayers);
+        SetTextView(DisplayText, svStageLayersText);
+        ScrollViewVis(svStageLayers);
         RadioAudioStart("gameover");
     }
 
@@ -673,22 +711,22 @@ public class MainActivity extends AppCompatActivity {
             NextQuestionNumber = NextQuestionNumber - 1;
             //Log.d("NextQuestionNumber2", "NextQuestionNumber = "+NextQuestionNumber);
             // because we want want to change score after resume or restore
-            TotalScore = (int) (TotalScore + sec / timesd + LevelQuestionsScore) + bonus;
+            TotalScore = (int) (TotalScore + sec * timesd + LevelQuestionsScore) + bonus;
         }
 
     }
 
     // this Method uncheck all check boxes
     public void UnCheckAllCheckBox() {
-        UnCheckCheckBox(R.id.checkbox_1);
-        UnCheckCheckBox(R.id.checkbox_2);
-        UnCheckCheckBox(R.id.checkbox_3);
-        UnCheckCheckBox(R.id.checkbox_4);
+        UnCheckCheckBox(svcheckbox_1);
+        UnCheckCheckBox(svcheckbox_2);
+        UnCheckCheckBox(svcheckbox_3);
+        UnCheckCheckBox(svcheckbox_4);
     }
 
     // this Method clear the previus text from edittext view
     public void UnCheckText() {
-        SetEditText("", R.id.EditBox);
+        SetEditText("", svEditBox);
     }
 
     // This Method Apply Results in Final Result Layout
@@ -704,9 +742,9 @@ public class MainActivity extends AppCompatActivity {
             ScoreTableString = ScoreTableString+ScoreTableArray[0]+"\n";
             ScoreTableString2 = ScoreTableString2+ScoreTableArray[1]+"\n";
         }
-        SetTextView(ScoreTableString, R.id.FinalResaltNames);
-        SetTextView(ScoreTableString2, R.id.FinalResaltScore);
-        ScrollViewVis(R.id.FinalResultLayout);
+        SetTextView(ScoreTableString, svFinalResaltNames);
+        SetTextView(ScoreTableString2, svFinalResaltScore);
+        ScrollViewVis(svFinalResultLayout);
     }
 
     // This Method restat game and call Startup Layout
@@ -719,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
         QNumber = 0;
         CNumber = 0;
         NextQuestionNumber = 0;
-        ScrollViewVis(R.id.StartupLayout);
+        ScrollViewVis(svStartupLayout);
     }
 
     // this method check media type of question and aply photo and audio
@@ -747,117 +785,100 @@ public class MainActivity extends AppCompatActivity {
         RadioAnimationStop();
         RadioAudioStop();
         if (Qtype == 3) {
-            UnFocusEditText(R.id.EditBox);
+            UnFocusEditText(svEditBox);
         }
         SetPhoto("paint");
     }
 
 
     // Set ScrollView Layer Visible - Gone... --------------------------------
-    public void ScrollViewGone(int val) {
-        ScrollView popup = (ScrollView) findViewById(val);
-        popup.setVisibility(View.GONE);
-        popup.scrollTo(0, 0);
+    public void ScrollViewGone(ScrollView val) {
+        val.setVisibility(View.GONE);
+        val.scrollTo(0, 0);
     }
 
-    public void ScrollViewVis(int val) {
-        ScrollView popup = (ScrollView) findViewById(val);
-        popup.setVisibility(View.VISIBLE);
+    public void ScrollViewVis(ScrollView val) {
+        val.setVisibility(View.VISIBLE);
     }
 
     // Set ImageView Visible - Gone... --------------------------------
-    public void ImageViewGone(int val) {
-        ImageView popup = (ImageView) findViewById(val);
-        popup.setVisibility(View.GONE);
+    public void ImageViewGone(ImageView  val) {
+        val.setVisibility(View.GONE);
     }
 
-    public void ImageViewVis(int val) {
-        ImageView popup = (ImageView) findViewById(val);
-        popup.setVisibility(View.VISIBLE);
+    public void ImageViewVis(ImageView  val) {
+        val.setVisibility(View.VISIBLE);
     }
 
     // TextView Text changer ----------------------------------------------------
-    public void SetTextView(String what, int where) {
-        TextView newtext = (TextView) findViewById(where);
-        newtext.setText(String.valueOf(what));
+    public void SetTextView(String what, TextView  where) {
+        where.setText(String.valueOf(what));
     }
 
     // EditText Text changer ----------------------------------------------------
-    public void SetEditText(String what, int where) {
-        EditText newtext = (EditText) findViewById(where);
-        newtext.setText(String.valueOf(what));
+    public void SetEditText(String what, EditText where) {
+        where.setText(String.valueOf(what));
+    }
+
+    // EditTextReturn return ----------------------------------------------------
+    public String EdittTextReturn(EditText val) {
+        return val.getText().toString();
     }
 
     // EditText Close keyboard after OK Button pressed  --------------------------------
-    public void UnFocusEditText(int where) {
-        EditText newtext = (EditText) findViewById(where);
-        newtext.clearFocus();
+    public void UnFocusEditText(EditText where) {
+        where.clearFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(newtext.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(where.getWindowToken(), 0);
     }
 
     // RadioButton Text changer ----------------------------------------------------
-    public void SetRadioButton(String what, int where) {
-        RadioButton newtext = (RadioButton) findViewById(where);
-        newtext.setText(String.valueOf(what));
+    public void SetRadioButton(String what, RadioButton where) {
+        where.setText(String.valueOf(what));
     }
 
     // RadioButton Uncheck  ----------------------------------------------------
     public void UnCheckRadioButton() {
-        RadioGroup radio = (RadioGroup) findViewById(R.id.QuestionRadioGroup);
-        radio.clearCheck();
+        svQuestionRadioGroup.clearCheck();
     }
 
     // CheckBox Text changer ----------------------------------------------------
-    public void SetCheckBox(String what, int where) {
-        CheckBox newtext = (CheckBox) findViewById(where);
-        newtext.setText(String.valueOf(what));
+    public void SetCheckBox(String what, CheckBox where) {
+        where.setText(String.valueOf(what));
     }
 
     // CheckBox UnCheck ----------------------------------------------------
-    public void UnCheckCheckBox(int where) {
-        CheckBox check = (CheckBox) findViewById(where);
-        check.setChecked(false);
-    }
-
-
-    // EditTextReturn changer ----------------------------------------------------
-    public String EdittTextReturn(int val) {
-        EditText ET = (EditText) findViewById(val);
-        return ET.getText().toString();
+    public void UnCheckCheckBox(CheckBox where) {
+        where.setChecked(false);
     }
 
     // Frame Photo changer ----------------------------------------------------
     public void SetPhoto(String val) {
-        ImageView whoamiwith = (ImageView) findViewById(R.id.Photo);
         int resId = getResources().getIdentifier(val, "drawable", getPackageName()); // change string to id
-        whoamiwith.setImageResource(resId);
+        svPhoto.setImageResource(resId);
     }
 
     // Frame Photo changer ----------------------------------------------------
     public void SetClock(int val) {
-        ImageView whoamiwith = (ImageView) findViewById(R.id.clock1);
-        whoamiwith.setImageResource(this.clocknames[val]);
+        svclock1.setImageResource(this.clocknames[val]);
     }
 
 
     // Radio Animation Start - Stop   ----------------------------------------------------
     public void RadioAnimationStart() {
-        ImageView stereo = (ImageView) findViewById(R.id.radio);
-        stereo.setBackgroundResource(R.drawable.radio);
-        AnimationDrawable RadioAnimation = (AnimationDrawable) stereo.getBackground();
+        svradio.setBackgroundResource(R.drawable.radio);
+        AnimationDrawable RadioAnimation = (AnimationDrawable) svradio.getBackground();
         RadioAnimation.start();
-        ImageViewVis(R.id.radio);
-        ImageViewGone(R.id.radio2);
+        ImageViewVis(svradio);
+        ImageViewGone(svradio2);
     }
 
     public void RadioAnimationStop() {
-        ImageView stereo = (ImageView) findViewById(R.id.radio);
-        stereo.setBackgroundResource(R.drawable.radio);
-        AnimationDrawable RadioAnimation = (AnimationDrawable) stereo.getBackground();
+        svradio.setBackgroundResource(R.drawable.radio);
+        AnimationDrawable RadioAnimation = (AnimationDrawable) svradio.getBackground();
         RadioAnimation.stop();
-        ImageViewVis(R.id.radio2);
-        ImageViewGone(R.id.radio);
+        ImageViewVis(svradio2);
+        ImageViewGone(svradio);
     }
 
     // Radio pressed button
@@ -916,11 +937,10 @@ public class MainActivity extends AppCompatActivity {
 
     //ZoomIN Animation
 
-    public void AnswearAnimation(final int val) throws InterruptedException {
-        Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
+    public void AnswearAnimation(final ImageView val) throws InterruptedException {
+        Animation zoomAnimation = AnimationUtils.loadAnimation(this, zoom);
         ImageViewVis(val);
-        ImageView zoom = (ImageView) findViewById(val);
-        zoom.startAnimation(zoomAnimation);
+        val.startAnimation(zoomAnimation);
         zoomAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -936,7 +956,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //Clock Animation
+    //Clock Animation and timer
     public void ClockAnimation(long time) {
         SetClock((int) ((60 - (int) (time / 1000)) / 5));
         if (!timehasend) {
@@ -947,7 +967,6 @@ public class MainActivity extends AppCompatActivity {
                     //Log.d("timer", "sec :"+sec);
                     if (sec % 5 == 0) {
                         RadioAudioStart2("clocktick");
-                        Log.d("timer", "sec :" + sec);
                         int remainsec = 60 - sec;
                         SetClock((int) (remainsec / 5));
                     }
