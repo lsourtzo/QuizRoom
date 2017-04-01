@@ -1057,43 +1057,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void GetFromFirebase() {
-        //Query query = scoresFirabase.getRef().child("score table").orderByChild("firebaseScore");
-        // query.addChildEventListener(new ChildEventListener() {
-        //    @Override
-        //    public void onDataChange(DataSnapshot dataSnapshot) {
-        //        String fName = (String)dataSnapshot.child("firebaseName").getValue();
-        //        String fScore = (String)dataSnapshot.child("firebaseScore").getValue();
-        //        sFName = sFName + fName + "\n";
-        //        sFScore = sFScore + fScore+ "\n";
-        //        Log.d("FB DATABASE", "name :" + fName + "score :" + fScore);
-        //   }
-        //    @Override
-        //   public void onCancelled(DatabaseError databaseError) {
-        //        sFName = "";
-        //        sFScore = "";
-        //    }
-        //});
-
-        final DatabaseReference player = database.getReference("score table");
-        player.orderByChild("firebaseScore").addChildEventListener(new ChildEventListener() {
+        Query query = scoresFirabase.getRef().child("score table").orderByChild("firebaseScore");
+         query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Player playerRef = dataSnapshot.getValue(Player.class);
-
-                //System.out.println(dataSnapshot.getKey() + " was " + dinosaur.height + " meters tall.");
-                sFName = sFName + playerRef.firebaseName + "\n";
-                sFScore = sFScore + playerRef.firebaseScore + "\n";
-                Log.d("FB DATABASE", "name :" + playerRef.firebaseName + "score :" + playerRef.firebaseScore);
-            }
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String fName = (String)dataSnapshot.child("firebaseName").getValue();
+                String fScore = (String)dataSnapshot.child("firebaseScore").getValue();
+                sFName = sFName + fName + "\n";
+                sFScore = sFScore + fScore+ "\n";
+                Log.d("FB DATABASE", "name :" + fName + "score :" + fScore);
+           }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+           public void onCancelled(DatabaseError databaseError) {
                 sFName = "";
                 sFScore = "";
             }
+        });
+
+       // final DatabaseReference player = database.getReference("score table");
+       // player.orderByChild("firebaseScore").addChildEventListener(new ChildEventListener() {
+       //     @Override
+       //     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+       //         Player playerRef = dataSnapshot.getValue(Player.class);
+
+//                //System.out.println(dataSnapshot.getKey() + " was " + dinosaur.height + " meters tall.");
+  //              sFName = sFName + playerRef.firebaseName + "\n";
+    //            sFScore = sFScore + playerRef.firebaseScore + "\n";
+      //          Log.d("FB DATABASE", "name :" + playerRef.firebaseName + "score :" + playerRef.firebaseScore);
+        //    }
+//
+  //          @Override
+    //        public void onCancelled(DatabaseError databaseError) {
+      //          sFName = "";
+        //        sFScore = "";
+          //  }
 
             //...
-        });
+      //  });
 
     }
 
