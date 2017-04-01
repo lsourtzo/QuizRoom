@@ -350,7 +350,30 @@
                                 style="@style/scoretabletextbox"/>
 
                         </RelativeLayout>
+                        <TextView
+                            android:id="@+id/FBFinalResaltText"
+                            style="@style/textbox2"
+                            android:gravity="center_horizontal"
+                            android:text="@string/ScoreTableTitle2" />
 
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/FBFinalResaltNames"
+                                style="@style/scoretabletextbox"
+                                android:gravity="left" />
+
+                            <TextView
+                                android:id="@+id/FBFinalResaltScore"
+                                style="@style/scoretabletextbox"
+                                android:gravity="right" />
+
+                        </RelativeLayout>
                     </LinearLayout>
                 </ScrollView>
 

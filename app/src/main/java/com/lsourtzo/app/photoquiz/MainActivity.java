@@ -19,13 +19,20 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-//import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
+import static android.R.attr.name;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView svcorrect;
     TextView svFinalResaltScore;
     TextView svFinalResaltNames;
+    TextView svFBFinalResaltScore;
+    TextView svFBFinalResaltNames;
     TextView svStageLayersText;
     TextView svEditTextQuestion;
     TextView svCheckBoxQuestion;
@@ -108,6 +117,26 @@ public class MainActivity extends AppCompatActivity {
     ImageView svPhoto;
     ImageView svclock1;
 
+    //Firebase scoreboard
+
+    String sFName;
+    String sFScore;
+
+    public static class Player {
+        public String firebaseName;
+        public String firebaseScore;
+
+        public Player(String firebaseName, String firebaseScore) {
+            // ...
+        }
+
+    }
+
+    private FirebaseDatabase database;
+    private DatabaseReference scoresFirabase;
+    private DatabaseReference scoresFirabaseGet;
+
+
     //// Where our porgram start.
 
     @Override
@@ -115,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
         CheckLanguageMehtod();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Firebase scoreboard
+        database = FirebaseDatabase.getInstance();
+        scoresFirabase = database.getReference("score table");
 
         // initializing views
         svStartupLayout = (ScrollView) findViewById(R.id.StartupLayout);
@@ -129,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
         svcorrect = (ImageView) findViewById(R.id.correct);
         svFinalResaltScore = (TextView) findViewById(R.id.FinalResaltScore);
         svFinalResaltNames = (TextView) findViewById(R.id.FinalResaltNames);
+        svFBFinalResaltScore = (TextView) findViewById(R.id.FBFinalResaltScore);
+        svFBFinalResaltNames = (TextView) findViewById(R.id.FBFinalResaltNames);
         svStageLayersText = (TextView) findViewById(R.id.StageLayersText);
         svEditTextQuestion = (TextView) findViewById(R.id.EditTextQuestion);
         svCheckBoxQuestion = (TextView) findViewById(R.id.CheckBoxQuestion);
@@ -392,8 +427,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 6: // Level Layer
                 LevelNumber = 9;
-                Log.d("LevelNumber", "LevelNumber = " + LevelNumber);
                 GetScoreTable();
+                pushInFirebase();
                 CheckLevel();
                 break;
         }
@@ -589,7 +624,7 @@ public class MainActivity extends AppCompatActivity {
                 if (CNumber >= 2) {
                     Pass(R.string.Stage2, 0);
                 } else {
-                    Cut(5);
+                    Cut(0);
                 }
                 break;
             case 3://Stage 3 3/5 55sec
@@ -597,7 +632,7 @@ public class MainActivity extends AppCompatActivity {
                 if (CNumber >= 2) {
                     Pass(R.string.Stage3, 1);
                 } else {
-                    Cut(4);
+                    Cut(0);
                 }
                 break;
             case 4://Stage 4 3/5 50sec
@@ -605,7 +640,7 @@ public class MainActivity extends AppCompatActivity {
                 if (CNumber >= 3) {
                     Pass(R.string.Stage4, 1);
                 } else {
-                    Cut(4);
+                    Cut(0);
                 }
                 break;
             case 5://Stage 5 4/5 50sec
@@ -613,7 +648,7 @@ public class MainActivity extends AppCompatActivity {
                 if (CNumber >= 3) {
                     Pass(R.string.Stage5, 2);
                 } else {
-                    Cut(3);
+                    Cut(1);
                 }
                 break;
             case 6://Stage 6 4/5 45sec
@@ -621,7 +656,7 @@ public class MainActivity extends AppCompatActivity {
                 if (CNumber >= 4) {
                     Pass(R.string.Stage6, 2);
                 } else {
-                    Cut(2);
+                    Cut(1);
                 }
                 break;
             case 7://Stage 7 5/5 40sec
@@ -680,7 +715,7 @@ public class MainActivity extends AppCompatActivity {
         String DisplayText = getString(R.string.Final) + "\n\n" +
                 getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
                 getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
-                getString(R.string.TimeBonus) + sec + " " + getString(R.string.Points) + "\n" +
+                getString(R.string.TimeBonus) + sec * 4 + " " + getString(R.string.Points) + "\n" +
                 getString(R.string.TotalScore) + TotalScore + "\n";
         Qtype = 6;
         SetTextView(DisplayText, svStageLayersText);
@@ -690,11 +725,11 @@ public class MainActivity extends AppCompatActivity {
 
     // when we cut off in last Level
     public void FinalCut() {
-        TotalScoreCalculator(4, 0);
+        TotalScoreCalculator(2, 0);
         String DisplayText = getString(R.string.GameOver) + "\n\n" +
                 getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
                 getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
-                getString(R.string.TimeBonus) + sec + " " + getString(R.string.Points) + "\n" +
+                getString(R.string.TimeBonus) + sec * 2 + " " + getString(R.string.Points) + "\n" +
                 getString(R.string.TotalScore) + TotalScore + "\n";
         Qtype = 6;
         SetTextView(DisplayText, svStageLayersText);
@@ -731,6 +766,8 @@ public class MainActivity extends AppCompatActivity {
 
     // This Method Apply Results in Final Result Layout
     public void SetFinalResults() throws IOException {
+
+        // LOCAL
         Qtype = 4;
         TinyDB tinydb = new TinyDB(this);
         String data = tinydb.getString("ScoreTable");
@@ -738,12 +775,19 @@ public class MainActivity extends AppCompatActivity {
         ScoreTableString = "";
         ScoreTableString2 = "";
         for (int i = 0; i <= 9; ++i) {
-            ScoreTableArray= (separated[i].split("\t"));
-            ScoreTableString = ScoreTableString+ScoreTableArray[0]+"\n";
-            ScoreTableString2 = ScoreTableString2+ScoreTableArray[1]+"\n";
+            ScoreTableArray = (separated[i].split("\t"));
+            ScoreTableString = ScoreTableString + ScoreTableArray[0] + "\n";
+            ScoreTableString2 = ScoreTableString2 + ScoreTableArray[1] + "\n";
         }
         SetTextView(ScoreTableString, svFinalResaltNames);
         SetTextView(ScoreTableString2, svFinalResaltScore);
+
+
+        // WEB
+        GetFromFirebase();
+        SetTextView(sFName, svFBFinalResaltNames);
+        SetTextView(sFScore, svFBFinalResaltScore);
+
         ScrollViewVis(svFinalResultLayout);
     }
 
@@ -802,16 +846,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Set ImageView Visible - Gone... --------------------------------
-    public void ImageViewGone(ImageView  val) {
+    public void ImageViewGone(ImageView val) {
         val.setVisibility(View.GONE);
     }
 
-    public void ImageViewVis(ImageView  val) {
+    public void ImageViewVis(ImageView val) {
         val.setVisibility(View.VISIBLE);
     }
 
     // TextView Text changer ----------------------------------------------------
-    public void SetTextView(String what, TextView  where) {
+    public void SetTextView(String what, TextView where) {
         where.setText(String.valueOf(what));
     }
 
@@ -1002,12 +1046,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // firebase scoretable
+    private void pushInFirebase() {
+
+        String key = scoresFirabase.push().getKey();
+        scoresFirabase.child(key).child("firebaseName").setValue(PlayerName);
+        scoresFirabase.child(key).child("firebaseScore").setValue(TotalScore);
+
+        //scoresFirabase.getRef().child("score table").orderByChild("firebaseScore");
+    }
+
+    private void GetFromFirebase() {
+        //Query query = scoresFirabase.getRef().child("score table").orderByChild("firebaseScore");
+        // query.addChildEventListener(new ChildEventListener() {
+        //    @Override
+        //    public void onDataChange(DataSnapshot dataSnapshot) {
+        //        String fName = (String)dataSnapshot.child("firebaseName").getValue();
+        //        String fScore = (String)dataSnapshot.child("firebaseScore").getValue();
+        //        sFName = sFName + fName + "\n";
+        //        sFScore = sFScore + fScore+ "\n";
+        //        Log.d("FB DATABASE", "name :" + fName + "score :" + fScore);
+        //   }
+        //    @Override
+        //   public void onCancelled(DatabaseError databaseError) {
+        //        sFName = "";
+        //        sFScore = "";
+        //    }
+        //});
+
+        final DatabaseReference player = database.getReference("score table");
+        player.orderByChild("firebaseScore").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Player playerRef = dataSnapshot.getValue(Player.class);
+
+                //System.out.println(dataSnapshot.getKey() + " was " + dinosaur.height + " meters tall.");
+                sFName = sFName + playerRef.firebaseName + "\n";
+                sFScore = sFScore + playerRef.firebaseScore + "\n";
+                Log.d("FB DATABASE", "name :" + playerRef.firebaseName + "score :" + playerRef.firebaseScore);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                sFName = "";
+                sFScore = "";
+            }
+
+            //...
+        });
+
+    }
+
+
     // Score table mehtods
-    // Writee to file
     private void GetScoreTable() throws IOException {
         //https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo
         //http://stackoverflow.com/questions/7057845/save-arraylist-to-sharedpreferences
-
 
         TinyDB tinydb = new TinyDB(this);
 
@@ -1016,52 +1110,49 @@ public class MainActivity extends AppCompatActivity {
 
         // If string is empty
         if (data.equals("")) {
-            Log.d("ScoreTable", "Data String is empty");
             // fill table with start values
             for (int i = 0; i <= 9; ++i) {
                 data = data + "Player" + "\t" + "0" + "\n";
             }
-            Log.d("ScoreTable", "Crerating Data String" + data);
         }
         //put string in to table
         ScoreTableArrayList.clear();
         String[] separated = data.split("\n");
         for (int i = 0; i <= 9; ++i) {
-            ScoreTableArray= (separated[i].split("\t"));
-            ScoreTableArrayList.add(i,ScoreTableArray);
+            ScoreTableArray = (separated[i].split("\t"));
+            ScoreTableArrayList.add(i, ScoreTableArray);
         }
 
         //sort table
         // Sorting Procedure and adding new score
         ScoreTableArray = ScoreTableArrayList.get(9);
         if (Integer.parseInt(ScoreTableArray[1]) < TotalScore) {
-            if (PlayerName.equals("")) PlayerName="No Name"; // check if player name is empty
+            if (PlayerName.equals("")) PlayerName = "No Name"; // check if player name is empty
             ScoreTableArray[0] = PlayerName;
             ScoreTableArray[1] = Integer.toString(TotalScore);
-            ScoreTableArrayList.set(9,ScoreTableArray);
+            ScoreTableArrayList.set(9, ScoreTableArray);
             int i = 8;
-            boolean done=false;
-            while (i >= 0 && !done ) {
+            boolean done = false;
+            while (i >= 0 && !done) {
                 ScoreTableArray = ScoreTableArrayList.get(i);
-                ScoreTableArray2=ScoreTableArrayList.get(i+1);
-                if (Integer.parseInt(ScoreTableArray[1])<Integer.parseInt(ScoreTableArray2[1])) {
-                    ScoreTableArrayList.set(i,ScoreTableArray2);
-                    ScoreTableArrayList.set(i+1,ScoreTableArray);
-                    i=i-1;
-                }
-                else{
-                    done=true;
+                ScoreTableArray2 = ScoreTableArrayList.get(i + 1);
+                if (Integer.parseInt(ScoreTableArray[1]) < Integer.parseInt(ScoreTableArray2[1])) {
+                    ScoreTableArrayList.set(i, ScoreTableArray2);
+                    ScoreTableArrayList.set(i + 1, ScoreTableArray);
+                    i = i - 1;
+                } else {
+                    done = true;
                 }
             }
         }
 
         //save string
-        data="";
+        data = "";
         // Recreate data string
-            for (int i = 0; i <= 9; ++i) {
-                ScoreTableArray = ScoreTableArrayList.get(i);
-                data = data + ScoreTableArray[0] + "\t" + ScoreTableArray[1] + "\n";
-            }
+        for (int i = 0; i <= 9; ++i) {
+            ScoreTableArray = ScoreTableArrayList.get(i);
+            data = data + ScoreTableArray[0] + "\t" + ScoreTableArray[1] + "\n";
+        }
         tinydb.putString("ScoreTable", data);
 
     }
@@ -1069,16 +1160,14 @@ public class MainActivity extends AppCompatActivity {
     // Language methods
     // check locatrion and if it's greek set the question file this with greeks.
 
-    public void CheckLanguageMehtod(){
-        if ( Locale.getDefault().getLanguage().contentEquals("el")) {
+    public void CheckLanguageMehtod() {
+        if (Locale.getDefault().getLanguage().contentEquals("el")) {
             QuestionLangSet = "questionsfinal-el.txt";
-        }else{
+        } else {
             QuestionLangSet = "questionsfinal.txt";
         }
 
     }
-
-
 
 
 }

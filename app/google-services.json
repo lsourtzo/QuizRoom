@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:381849584838:android:8456ed23a0cb0983",
+        "mobilesdk_app_id": "1:381849584838:android:deb54dbd7736c252",
         "android_client_info": {
-          "package_name": "com.lsourtzo.app.photoquiz"
+          "package_name": "com.lsourtzo.app.quizroom"
         }
       },
       "oauth_client": [

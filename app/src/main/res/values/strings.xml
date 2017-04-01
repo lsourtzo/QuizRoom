@@ -5,7 +5,8 @@
     <string name="NameText">Name </string>
     <string name="AnswearHere">Please write your answer here. </string>
     <string name="NameTitle">Please write your name in bellow text box: </string>
-    <string name="ScoreTableTitle">Score Table \n Top 10 !</string>
+    <string name="ScoreTableTitle">Score Table \n Local Top 10 !</string>
+    <string name="ScoreTableTitle2">Score Table \n web !</string>
 
     <string name="Stage1">Next Level: 1  \n\nTo continue to the next level you have to answer correctly in 2 of 5 questions in 60 seconds!</string>
     <string name="Stage2">Nice work!\n\nNext Level: 2  \n\nTo continue to the next level you have to answer correctly in 2 of 5 questions in 55 seconds!</string>
