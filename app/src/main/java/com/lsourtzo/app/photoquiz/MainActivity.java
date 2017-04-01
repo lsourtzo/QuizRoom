@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -124,10 +125,14 @@ public class MainActivity extends AppCompatActivity {
 
     public static class Player {
         public String firebaseName;
-        public String firebaseScore;
+        public int firebaseScore;
 
-        public Player(String firebaseName, String firebaseScore) {
-            // ...
+        public Player() {
+        }
+
+        public Player(String firebaseName, int firebaseScore) {
+            this.firebaseName = firebaseName;
+            this.firebaseScore = firebaseScore;
         }
 
     }
@@ -785,8 +790,9 @@ public class MainActivity extends AppCompatActivity {
 
         // WEB
         GetFromFirebase();
-        SetTextView(sFName, svFBFinalResaltNames);
-        SetTextView(sFScore, svFBFinalResaltScore);
+       // Log.d("FB DATABASE", sFName + "--------" + sFScore);
+       // SetTextView(sFName, svFBFinalResaltNames);
+       // SetTextView(sFScore, svFBFinalResaltScore);
 
         ScrollViewVis(svFinalResultLayout);
     }
@@ -1050,50 +1056,79 @@ public class MainActivity extends AppCompatActivity {
     private void pushInFirebase() {
 
         String key = scoresFirabase.push().getKey();
-        scoresFirabase.child(key).child("firebaseName").setValue(PlayerName);
+        if (PlayerName.equals("")){
+            scoresFirabase.child(key).child("firebaseName").setValue("No Name");
+        }
+        else
+        {
+            scoresFirabase.child(key).child("firebaseName").setValue(PlayerName);
+        }
         scoresFirabase.child(key).child("firebaseScore").setValue(TotalScore);
-
-        //scoresFirabase.getRef().child("score table").orderByChild("firebaseScore");
     }
 
     private void GetFromFirebase() {
-        Query query = scoresFirabase.getRef().child("score table").orderByChild("firebaseScore");
-         query.addValueEventListener(new ValueEventListener() {
+
+        sFName = "";
+        sFScore = "";
+        final DatabaseReference player = database.getReference("score table");
+        player.orderByChild("firebaseScore").limitToLast(30).addChildEventListener(new ChildEventListener()  {
+            int classification=30;
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String fName = (String)dataSnapshot.child("firebaseName").getValue();
-                String fScore = (String)dataSnapshot.child("firebaseScore").getValue();
-                sFName = sFName + fName + "\n";
-                sFScore = sFScore + fScore+ "\n";
-                Log.d("FB DATABASE", "name :" + fName + "score :" + fScore);
-           }
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Player playerRef = dataSnapshot.getValue(Player.class);
+                Log.d("testing","counter:"+classification+" Name:"+sFName);
+
+                if (classification>0){
+                    sFName = Integer.toString(classification) + ". " + playerRef.firebaseName + "\n" + sFName;
+                    sFScore = Integer.toString(playerRef.firebaseScore) + "\n" +sFScore;
+                    SetTextView(sFName, svFBFinalResaltNames);
+                    SetTextView(sFScore, svFBFinalResaltScore);}
+
+                classification=classification-1;
+
+            }
+
             @Override
-           public void onCancelled(DatabaseError databaseError) {
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
                 sFName = "";
                 sFScore = "";
             }
         });
 
-       // final DatabaseReference player = database.getReference("score table");
-       // player.orderByChild("firebaseScore").addChildEventListener(new ChildEventListener() {
-       //     @Override
-       //     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-       //         Player playerRef = dataSnapshot.getValue(Player.class);
+        // check firebase connectivity
 
-//                //System.out.println(dataSnapshot.getKey() + " was " + dinosaur.height + " meters tall.");
-  //              sFName = sFName + playerRef.firebaseName + "\n";
-    //            sFScore = sFScore + playerRef.firebaseScore + "\n";
-      //          Log.d("FB DATABASE", "name :" + playerRef.firebaseName + "score :" + playerRef.firebaseScore);
-        //    }
-//
-  //          @Override
-    //        public void onCancelled(DatabaseError databaseError) {
-      //          sFName = "";
-        //        sFScore = "";
-          //  }
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                } else {
+                    SetTextView(getString(R.string.noInternet), svFBFinalResaltNames);
+                    Toast.makeText(MainActivity.this, getString(R.string.noInternet2), Toast.LENGTH_SHORT).show();
+                }
+            }
 
-            //...
-      //  });
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Listener was cancelled");
+            }
+        });
 
     }
 
