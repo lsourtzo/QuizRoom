@@ -1055,6 +1055,8 @@ public class MainActivity extends AppCompatActivity {
     // firebase scoretable
     private void pushInFirebase() {
 
+        final DatabaseReference player = database.getReference("score table");
+
         String key = scoresFirabase.push().getKey();
         if (PlayerName.equals("")){
             scoresFirabase.child(key).child("firebaseName").setValue("No Name");
@@ -1067,7 +1069,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void GetFromFirebase() {
-
         sFName = "";
         sFScore = "";
         final DatabaseReference player = database.getReference("score table");
@@ -1120,7 +1121,7 @@ public class MainActivity extends AppCompatActivity {
                 if (connected) {
                 } else {
                     SetTextView(getString(R.string.noInternet), svFBFinalResaltNames);
-                    Toast.makeText(MainActivity.this, getString(R.string.noInternet2), Toast.LENGTH_SHORT).show();
+                    SetTextView("", svFBFinalResaltScore);
                 }
             }
 
@@ -1189,7 +1190,6 @@ public class MainActivity extends AppCompatActivity {
             data = data + ScoreTableArray[0] + "\t" + ScoreTableArray[1] + "\n";
         }
         tinydb.putString("ScoreTable", data);
-
     }
 
     // Language methods
