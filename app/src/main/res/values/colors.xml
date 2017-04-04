@@ -5,11 +5,13 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#ffffff</color>
-    <color name="QuestionColor">#e55e3807</color>
+    <color name="QuestionColor">#5e3807</color>
 
     <color name="questionbackcolor">#baffffff</color>
 
     <color name="bottombar">#b95e3807</color>
     <color name="bottomtext">#FFFFFF</color>
+
+    <color name="test">#fff4fe</color>
 
 </resources>

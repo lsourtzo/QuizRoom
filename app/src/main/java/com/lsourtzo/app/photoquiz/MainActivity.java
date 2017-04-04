@@ -1,5 +1,8 @@
 package com.lsourtzo.app.photoquiz;
 
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Handler;
 import android.graphics.drawable.AnimationDrawable;
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,7 +29,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
@@ -33,8 +36,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
-import static android.R.attr.name;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom;
+import static com.lsourtzo.app.photoquiz.R.anim.zoom2;
+import static com.lsourtzo.app.photoquiz.R.anim.zoom3;
+import static com.lsourtzo.app.photoquiz.R.string.GameOver;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -96,11 +101,16 @@ public class MainActivity extends AppCompatActivity {
     ImageView svradio2;
     ImageView svwrong;
     ImageView svcorrect;
-    TextView svFinalResaltScore;
-    TextView svFinalResaltNames;
-    TextView svFBFinalResaltScore;
-    TextView svFBFinalResaltNames;
-    TextView svStageLayersText;
+    ImageView svgameover;
+    ImageView svcongrats;
+    ImageView svfw;
+    ImageView svcrack;
+    ImageView svOkButton;
+    WebView svFinalResaltScore;
+    WebView svFinalResaltNames;
+    WebView svFBFinalResaltScore;
+    WebView svFBFinalResaltNames;
+    WebView svStageLayersText;
     TextView svEditTextQuestion;
     TextView svCheckBoxQuestion;
     TextView svRadioGroupQuestion;
@@ -117,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     CheckBox svcheckbox_4;
     ImageView svPhoto;
     ImageView svclock1;
+    AnimationDrawable fwAnim;
 
     //Firebase scoreboard
 
@@ -142,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference scoresFirabaseGet;
 
 
+
     //// Where our porgram start.
 
     @Override
@@ -165,11 +177,16 @@ public class MainActivity extends AppCompatActivity {
         svradio2 = (ImageView) findViewById(R.id.radio2);
         svwrong = (ImageView) findViewById(R.id.wrong);
         svcorrect = (ImageView) findViewById(R.id.correct);
-        svFinalResaltScore = (TextView) findViewById(R.id.FinalResaltScore);
-        svFinalResaltNames = (TextView) findViewById(R.id.FinalResaltNames);
-        svFBFinalResaltScore = (TextView) findViewById(R.id.FBFinalResaltScore);
-        svFBFinalResaltNames = (TextView) findViewById(R.id.FBFinalResaltNames);
-        svStageLayersText = (TextView) findViewById(R.id.StageLayersText);
+        svgameover = (ImageView) findViewById(R.id.gameover);
+        svcongrats = (ImageView) findViewById(R.id.congratsulation);
+        svfw = (ImageView) findViewById(R.id.fireworkimage);
+        svcrack = (ImageView) findViewById(R.id.crack);
+        svOkButton = (ImageView) findViewById(R.id.okbuttonimage);
+        svFinalResaltScore = (WebView) findViewById(R.id.FinalResaltScore);
+        svFinalResaltNames = (WebView) findViewById(R.id.FinalResaltNames);
+        svFBFinalResaltScore = (WebView) findViewById(R.id.FBFinalResaltScore);
+        svFBFinalResaltNames = (WebView) findViewById(R.id.FBFinalResaltNames);
+        svStageLayersText = (WebView) findViewById(R.id.StageLayersText);
         svEditTextQuestion = (TextView) findViewById(R.id.EditTextQuestion);
         svCheckBoxQuestion = (TextView) findViewById(R.id.CheckBoxQuestion);
         svRadioGroupQuestion = (TextView) findViewById(R.id.RadioGroupQuestion);
@@ -203,6 +220,13 @@ public class MainActivity extends AppCompatActivity {
             TotalQuestions = TotalQuestionsInFile;
         }
         CreateRandomQuestionList();
+
+        // fireworks animation
+
+        svfw.setBackgroundResource(R.drawable.fireworklist);
+        fwAnim = (AnimationDrawable) svfw.getBackground();
+
+
     }
 
     @Override
@@ -620,7 +644,7 @@ public class MainActivity extends AppCompatActivity {
                 LevelTime = 60000;
                 TotalScore = 0;
                 LevelQuestionsScore = 0;
-                SetTextView(getString(R.string.Stage1), svStageLayersText);
+                setWebView("<font color=\"#5e3807\">"+ getString(R.string.Stage1)+ "<br /></font>", svStageLayersText);
                 ScrollViewVis(svStageLayers);
                 Qtype = 5;
                 break;
@@ -688,14 +712,19 @@ public class MainActivity extends AppCompatActivity {
 
     // when we pass to next levell
     public void Pass(int val, int timesd) {
+        try {
+            congratsAnimation();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         TotalScoreCalculator(timesd, 0);
-        String DisplayText = getString(val) + "\n\n" +
-                getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
-                getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
-                getString(R.string.TimeBonus) + sec * timesd + " " + getString(R.string.Points) + "\n" +
-                getString(R.string.TotalScore) + TotalScore + "\n";
+        String DisplayText = "<font color=\"#5e3807\">"+ getString(val)+ "<br />" + "<br />" +
+                "<b>"+ getString(R.string.QuestionLevelTotal)+" " + "</b>" + LevelQuestionsScore + "<br />" +
+                "<b>"+ getString(R.string.SecondsLeft)+ "</b>" +" " +  sec + getString(R.string.Sec) + "<br />" +
+                "<b>"+ getString(R.string.TimeBonus)+ "</b>" +" " +  sec * timesd + " " + getString(R.string.Points) + "<br />" +
+                "<b>"+ getString(R.string.TotalScore)+ "</b>" +" " +  TotalScore + "<br /></font>";
         Qtype = 5;
-        SetTextView(DisplayText, svStageLayersText);
+        setWebView(DisplayText, svStageLayersText);
         ScrollViewVis(svStageLayers);
         RadioAudioStart("win2");
     }
@@ -703,27 +732,31 @@ public class MainActivity extends AppCompatActivity {
     // when we cut off next levell
     public void Cut(int timesd) {
         TotalScoreCalculator(timesd, 0);
-        String DisplayText = getString(R.string.GameOver) + "\n\n" +
-                getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
-                getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
-                getString(R.string.TimeBonus) + sec * timesd + " " + getString(R.string.Points) + "\n" +
-                getString(R.string.TotalScore) + TotalScore + "\n";
+        String DisplayText = "<font color=\"#5e3807\"><b>"+ getString(R.string.QuestionLevelTotal) + "</b>"+ " " + LevelQuestionsScore + "<br />" +
+                "<b>"+ getString(R.string.SecondsLeft) + "</b>"+ " " + sec + getString(R.string.Sec) + "<br />" +
+                "<b>"+ getString(R.string.TimeBonus) + "</b>"+ " " + sec * timesd + " " + getString(R.string.Points) + "<br />" +
+                "<b>"+ getString(R.string.TotalScore) + "</b>"+ " " + TotalScore + "<br /></font>";
         Qtype = 6;
-        SetTextView(DisplayText, svStageLayersText);
+        setWebView(DisplayText, svStageLayersText);
         ScrollViewVis(svStageLayers);
-        RadioAudioStart("gameover");
+        gameOver();
     }
 
     // when we Finish all levell
     public void FinalPass() {
+        try {
+            congratsAnimation();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         TotalScoreCalculator(4, 300);
-        String DisplayText = getString(R.string.Final) + "\n\n" +
-                getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
-                getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
-                getString(R.string.TimeBonus) + sec * 4 + " " + getString(R.string.Points) + "\n" +
-                getString(R.string.TotalScore) + TotalScore + "\n";
+        String DisplayText =  "<font color=\"#5e3807\">"+ getString(R.string.Final) + "<br />" + "<br />" +
+                "<b>"+ getString(R.string.QuestionLevelTotal) + "</b>"+ " "  + LevelQuestionsScore + "<br />" +
+                "<b>"+ getString(R.string.SecondsLeft) + "</b>"+ " "  + sec + getString(R.string.Sec) + "<br />" +
+                "<b>"+ getString(R.string.TimeBonus) + "</b>"+ " "  + sec * 4 + " " + getString(R.string.Points) + "<br />" +
+                "<b>"+ getString(R.string.TotalScore) + "</b>"+ " "  + TotalScore + "<br /></font>";
         Qtype = 6;
-        SetTextView(DisplayText, svStageLayersText);
+        setWebView(DisplayText, svStageLayersText);
         ScrollViewVis(svStageLayers);
         RadioAudioStart("win");
     }
@@ -731,15 +764,40 @@ public class MainActivity extends AppCompatActivity {
     // when we cut off in last Level
     public void FinalCut() {
         TotalScoreCalculator(2, 0);
-        String DisplayText = getString(R.string.GameOver) + "\n\n" +
-                getString(R.string.QuestionLevelTotal) + LevelQuestionsScore + "\n" +
-                getString(R.string.SecondsLeft) + sec + getString(R.string.Sec) + "\n" +
-                getString(R.string.TimeBonus) + sec * 2 + " " + getString(R.string.Points) + "\n" +
-                getString(R.string.TotalScore) + TotalScore + "\n";
+        String DisplayText = "<font color=\"#5e3807\"><b>"+  getString(R.string.QuestionLevelTotal) + "</b>"+ " "   + LevelQuestionsScore + "<br />" +
+                "<b>"+ getString(R.string.SecondsLeft) + "</b>"+ " "   +  sec + getString(R.string.Sec) + "<br />" +
+                "<b>"+ getString(R.string.TimeBonus) + "</b>"+ " "   + sec * 2 + " " + getString(R.string.Points) + "<br />" +
+                "<b>"+ getString(R.string.TotalScore) + "</b>"+ " "   + TotalScore + "<br /></font>";
         Qtype = 6;
-        SetTextView(DisplayText, svStageLayersText);
+        setWebView(DisplayText, svStageLayersText);
         ScrollViewVis(svStageLayers);
-        RadioAudioStart("gameover");
+        gameOver();
+    }
+
+    //game Over effect
+
+    public void gameOver(){
+        try {
+            gameOverAnimation();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public void gameOverHide (View V){
+        ImageViewGone(svgameover);
+        ImageViewGone(svcrack);
+        ImageViewVis(svOkButton);
+    }
+
+    public void congratsHide (View V){
+        ImageViewGone(svcongrats);
+        ImageViewGone(svfw);
+        ImageViewVis(svOkButton);
+        fwAnim.stop();
     }
 
     // Calculating total score
@@ -777,23 +835,22 @@ public class MainActivity extends AppCompatActivity {
         TinyDB tinydb = new TinyDB(this);
         String data = tinydb.getString("ScoreTable");
         String[] separated = data.split("\n");
-        ScoreTableString = "";
+        ScoreTableString = "<table width=\"100%\";>";
         ScoreTableString2 = "";
         for (int i = 0; i <= 9; ++i) {
             ScoreTableArray = (separated[i].split("\t"));
-            ScoreTableString = ScoreTableString + ScoreTableArray[0] + "\n";
-            ScoreTableString2 = ScoreTableString2 + ScoreTableArray[1] + "\n";
+            if (i % 2 == 0) {
+                ScoreTableString = ScoreTableString + "<tr style='background-color:#E2BC8B;color:#5e3807;'><td width=\"70%\"> " + (i+1)+". " +  ScoreTableArray[0] + "</td>"+ "<td>" + ScoreTableArray[1] + "</td></tr>";
+            }
+            else {
+                ScoreTableString = ScoreTableString + "<tr style='background-color:#5e3807;color:#E2BC8B;'><td width=\"70%\"> " + (i+1)+". " +  ScoreTableArray[0] + "</td>"+ "<td>" + ScoreTableArray[1] + "</td></tr>";
+            }
         }
-        SetTextView(ScoreTableString, svFinalResaltNames);
-        SetTextView(ScoreTableString2, svFinalResaltScore);
+        setWebView(ScoreTableString, svFinalResaltNames);
 
 
         // WEB
         GetFromFirebase();
-       // Log.d("FB DATABASE", sFName + "--------" + sFScore);
-       // SetTextView(sFName, svFBFinalResaltNames);
-       // SetTextView(sFScore, svFBFinalResaltScore);
-
         ScrollViewVis(svFinalResultLayout);
     }
 
@@ -851,18 +908,36 @@ public class MainActivity extends AppCompatActivity {
         val.setVisibility(View.VISIBLE);
     }
 
-    // Set ImageView Visible - Gone... --------------------------------
+    // Set ImageView Visible - Gone - panding... --------------------------------
     public void ImageViewGone(ImageView val) {
         val.setVisibility(View.GONE);
     }
+
+    public void ImageViewInv(ImageView val) { val.setVisibility(View.INVISIBLE); }
 
     public void ImageViewVis(ImageView val) {
         val.setVisibility(View.VISIBLE);
     }
 
+    public void ImageViewPading(ImageView val,int pad) {
+        val.setPadding(pad,pad,pad,pad);
+    }
+
     // TextView Text changer ----------------------------------------------------
     public void SetTextView(String what, TextView where) {
         where.setText(String.valueOf(what));
+    }
+
+    public void setWebView(String what, WebView where) {
+        if (Build.VERSION.SDK_INT < 18) {
+            where.clearView();
+        } else {
+            where.loadUrl("about:blank");
+        }
+        //where.getSettings().setUseWideViewPort(true);
+        //where.getSettings().setLoadWithOverviewMode(true);
+        where.loadData (String.valueOf(what), "text/html; charset=utf-8", "UTF-8");
+        where.setBackgroundColor(Color.TRANSPARENT);
     }
 
     // EditText Text changer ----------------------------------------------------
@@ -1006,6 +1081,66 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // GAME OVER ANIMATION
+
+    public void gameOverAnimation() throws InterruptedException {
+        Animation zoomAnimation2 = AnimationUtils.loadAnimation(this, zoom2);
+        ImageViewVis(svgameover);
+        svgameover.startAnimation(zoomAnimation2);
+        Log.d("lpgd GameOver","1");
+        zoomAnimation2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                ImageViewGone(svOkButton);
+                RadioAudioStart("gameover");
+                ImageViewVis (svgameover);
+                Log.d("lpgd GameOver","start");
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                ImageViewVis(svcrack);
+                RadioAudioStart("crack");
+                Log.d("lpgd GameOver","stop");
+
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
+    // Vogratulation ANIMATION
+
+    public void congratsAnimation() throws InterruptedException {
+        Animation zoomAnimation3 = AnimationUtils.loadAnimation(this, zoom3);
+        ImageViewVis(svcongrats);
+        Log.d("lpgd Congrats","1");
+        svcongrats.startAnimation(zoomAnimation3);
+        zoomAnimation3.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                Log.d("lpgd Congrats","Start");
+                ImageViewGone(svOkButton);
+                RadioAudioStart("ohyeah");
+                ImageViewVis (svcongrats);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Log.d("lpgd Congrats","Stop");
+                fwAnim.start();
+                ImageViewVis(svfw);
+
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
     //Clock Animation and timer
     public void ClockAnimation(long time) {
         SetClock((int) ((60 - (int) (time / 1000)) / 5));
@@ -1069,7 +1204,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void GetFromFirebase() {
-        sFName = "";
+        sFName = "</table>";
         sFScore = "";
         final DatabaseReference player = database.getReference("score table");
         player.orderByChild("firebaseScore").limitToLast(30).addChildEventListener(new ChildEventListener()  {
@@ -1077,16 +1212,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Player playerRef = dataSnapshot.getValue(Player.class);
-                Log.d("testing","counter:"+classification+" Name:"+sFName);
+                Log.d("testing", "counter:" + classification + " Name:" + sFName);
 
-                if (classification>0){
-                    sFName = Integer.toString(classification) + ". " + playerRef.firebaseName + "\n" + sFName;
-                    sFScore = Integer.toString(playerRef.firebaseScore) + "\n" +sFScore;
-                    SetTextView(sFName, svFBFinalResaltNames);
-                    SetTextView(sFScore, svFBFinalResaltScore);}
+                if (classification > 0) {
+                    if (classification % 2 == 0) {
+                        sFName = "<tr style='background-color:#E2BC8B;color:#5e3807;'><td width=\"70%\"> " + (classification) + ". " + playerRef.firebaseName + "</td>" + "<td>" + Integer.toString(playerRef.firebaseScore) + "</td></tr>" + sFName;
+                    } else {
+                        sFName = "<tr style='background-color:#5e3807;color:#E2BC8B;'><td width=\"70%\"> " + (classification) + ". " + playerRef.firebaseName + "</td>" + "<td>" + Integer.toString(playerRef.firebaseScore) + "</td></tr>" + sFName;
+                    }
+                    sFName = "<table width=\"100%\";>" + sFName;
 
-                classification=classification-1;
+                    setWebView(sFName, svFBFinalResaltNames);
 
+                    classification = classification - 1;
+                }
             }
 
             @Override
@@ -1111,6 +1250,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         // check firebase connectivity
 
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -1120,8 +1261,8 @@ public class MainActivity extends AppCompatActivity {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected) {
                 } else {
-                    SetTextView(getString(R.string.noInternet), svFBFinalResaltNames);
-                    SetTextView("", svFBFinalResaltScore);
+                    setWebView(getString(R.string.noInternet), svFBFinalResaltNames);
+                    setWebView("", svFBFinalResaltScore);
                 }
             }
 

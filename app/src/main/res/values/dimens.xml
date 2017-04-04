@@ -15,4 +15,6 @@
 
     <dimen name="OKButton">50dp</dimen>
 
+    <dimen name="gameoverpad">80dp</dimen>
+
 </resources>

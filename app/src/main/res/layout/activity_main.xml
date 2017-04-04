@@ -219,15 +219,16 @@
                             android:orientation="vertical">
 
 
-                        <TextView
-                            android:id="@+id/FinalResaltNames"
-                            style="@style/scoretabletextbox"
-                            android:gravity="left" />
+                            <WebView
+                                style="@style/scoretabletextbox"
+                                android:id="@+id/FinalResaltNames"
+                                android:gravity="left" />
 
-                        <TextView
-                            android:id="@+id/FinalResaltScore"
-                            style="@style/scoretabletextbox"
-                            android:gravity="right" />
+
+                            <WebView
+                                android:id="@+id/FinalResaltScore"
+                                style="@style/scoretabletextbox"
+                                android:gravity="right" />
 
                         </RelativeLayout>
 
@@ -244,12 +245,12 @@
                             android:orientation="vertical">
 
 
-                            <TextView
+                            <WebView
                                 android:id="@+id/FBFinalResaltNames"
                                 style="@style/scoretabletextbox"
                                 android:gravity="left" />
 
-                            <TextView
+                            <WebView
                                 android:id="@+id/FBFinalResaltScore"
                                 style="@style/scoretabletextbox"
                                 android:gravity="right" />
@@ -271,7 +272,7 @@
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:orientation="vertical">
 
-                        <TextView
+                        <WebView
                             android:id="@+id/StageLayersText"
                             style="@style/textbox"
                             android:gravity="center_horizontal|center_vertical" />
@@ -279,7 +280,10 @@
                     </LinearLayout>
                 </ScrollView>
 
+
+
                 <ImageView
+                    android:id="@+id/okbuttonimage"
                     style="@style/OKButton"
                     android:onClick="OKButtonMethod"
                     android:src="@drawable/okbutton" />
@@ -303,6 +307,56 @@
                     android:layout_marginRight="@dimen/marginvlarge"
                     android:src="@drawable/wrong"
                     android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/crack"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/crack"
+                        android:onClick="gameOverHide"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/gameover"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/gameover"
+                        android:padding="@dimen/gameoverpad"
+                        android:onClick="gameOverHide"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/fireworkimage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:onClick="congratsHide"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/congratsulation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/congratulation"
+                        android:padding="@dimen/marginlarge"
+                        android:onClick="congratsHide"
+                        android:visibility="gone"/>
+
+
+                </RelativeLayout>
 
             </RelativeLayout>
 

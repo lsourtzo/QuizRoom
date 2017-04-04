@@ -6,15 +6,17 @@
     <string name="AnswearHere">Please write your answer here. </string>
     <string name="NameTitle">Please write your name in bellow text box: </string>
     <string name="ScoreTableTitle">Score Table \n Local Top 10 !</string>
-    <string name="ScoreTableTitle2">Score Table \n web !</string>
+    <string name="ScoreTableTitle2">Score Table \n Global Top 30 !</string>
+    <string name="noInternet">It is not possible to show global score table because there is no Internet connection !</string>
+    <string name="noInternet2">No Internet connection !</string>
 
-    <string name="Stage1">Next Level: 1  \n\nTo continue to the next level you have to answer correctly in 2 of 5 questions in 60 seconds!</string>
-    <string name="Stage2">Nice work!\n\nNext Level: 2  \n\nTo continue to the next level you have to answer correctly in 2 of 5 questions in 55 seconds!</string>
-    <string name="Stage3">Excellent!\n\nNext Level: 3  \n\nTo continue to the next level you have to answer correctly in 3 of 5 questions in 55 seconds!</string>
-    <string name="Stage4">Super!\n\nNext Level: 4  \n\nTo continue to the next level you have to answer correctly in 3 of 5 questions in 50 seconds!</string>
-    <string name="Stage5">Incredible!\n\nNext Level: 5 \n\nTo continue to the next level you have to answer correctly in 4 of 5 questions in 50 seconds!</string>
-    <string name="Stage6">You are on fire!\n\nNext Level: 6 \n\nTo continue to the next level you have to answer correctly in 4 of 5 questions in 45 seconds!</string>
-    <string name="Stage7">God-like!\n\nNext Level: 7 \n\nTo finish and earn the 300 point bonus you have to answer correctly in 5 of 5 questions in 40 seconds!</string>
+    <string name="Stage1"><![CDATA[<b>Next Level:</b> 1  <br /> <br /> To continue to the next level you have to answer correctly in <b>2</b> of <b>5</b> questions in <b>60 seconds!</b>]]></string>
+    <string name="Stage2"><![CDATA[<b>Nice work!<br /><br />Next Level:</b> 2  <br /><br />To continue to the next level you have to answer correctly in <b>2</b> of <b>5</b> questions in <b>55 seconds!</b>]]></string>
+    <string name="Stage3"><![CDATA[<b>Excellent!<br /><br />Next Level:</b> 3  <br /><br />To continue to the next level you have to answer correctly in <b>3</b> of <b>5</b> questions in <b>55 seconds!</b>]]></string>
+    <string name="Stage4"><![CDATA[<b>Super!<br /><br />Next Level:</b> 4  <br /><br />To continue to the next level you have to answer correctly in <b>3</b> of <b>5</b> questions in <b>50 seconds!</b>]]></string>
+    <string name="Stage5"><![CDATA[<b>Incredible!<br /><br />Next Level:</b> 5 <br /><br />To continue to the next level you have to answer correctly in <b>4</b> of <b>5</b> questions in <b>50 seconds!</b>]]></string>
+    <string name="Stage6"><![CDATA[<b>You are on fire!<br /><br />Next Level:</b> 6 <br /><br />To continue to the next level you have to answer correctly in <b>4</b> of <b>5</b> questions in <b>45 seconds!</b>]]></string>
+    <string name="Stage7"><![CDATA[<b>God-like!<br /><br />Next Level:</b> 7 <br /><br />To finish and earn the 300 point bonus you have to answer correctly in <b>5</b> of <b>5</b> questions in <b>40 seconds!</b>]]></string>
 
     <string name="TotalScore">Total Score:</string>
     <string name="Score">Score Table</string>
