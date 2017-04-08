@@ -73,22 +73,21 @@ radio	Can you  identify the  city you see in the picture?	New York	Dubai	Hong Ko
 radio	Can you  identify the city you see in the picture?	Chicago	New York	Hong Kong	Sydney	photo	chicago	null	1	null	65
 radio	Can you  identify the  city you see in the picture?	Rio De Janeiro	New York	Hong Kong	Dubai	photo	riodejaneiro	null	1	null	55
 radio	Can you  identify the city you see in the picture?	Moscow	Dubai	Hong Kong	Teipei	photo	moscow	null	1	null	35
-radio	Can you  identify the  city you see in the picture?	Barcelona	Madrid	Rome	Hong Kong	photo	barcelona	null	1	2	80
+radio	Can you  identify the  city you see in the picture?	Barcelona	Madrid	Rome	Hong Kong	photo	barcelona	null	1	null	80
 check	Which two of the following cities are in Italy.	Milan	Rome	Athens	Manchester	photo	italy	null	1	2	40
 check	Which two of the following cities are in France.	Paris	Lion	Milan	Beograd	photo	france	null	1	2	35
 check	Which two of the following cities are in Germany.	Munich	Berlin	MIlan	Barcelona	photo	germany	null	1	2	45
 check	Which two of the following cities are in Greece.	Athens	Chania	Alexandria	Rome	photo	greece	null	1	2	40
-check	Which two of the following cities are in UK.	Manchester	New Castle	Milan	Perth	photo	uk	null	1	2	41
-check	Which two of the following cities are in USA	Chicago	Mexico City	Kansas	Westworld	photo	usa	null	1	3	42
+check	Which two of the following cities are in UK.	Manchester	New Castle	MIlan	Perth	photo	uk	null	1	2	41
+check	Which two of the following cities are in USA	Chicago	Mexico City	Kansas	Westworld	photo	usa	null	1	2	42
 check	Which two of the following cities are in Australia.	Perth	Sydney	Hong Kong	Teipei	photo	australia	null	1	2	43
 check	Which two of the following cities are in Spain	Madrid	Barcelona	Perth	Lion	photo	spain	null	1	2	30
 check	In which two of the following continents you find an animal like this in nature?	Asia	Africa	North America	Australia	photoaudio	elephant	elephant	1	2	35
 check	In which two of the following continents you find an animal like this in nature?	South America	Asia	Europe	Australia	photoaudio	tiger	tiger	1	2	35
 check	In which two of the following continents you find an animal like this in nature?	Antarctica	Africa	North Pole	Greenland	photoaudio	penguin	penguin	1	2	35
-check	In which two of the following continents you find an animal like this in nature?	Africa	Asia	North America	South America	photoaudio	puma	puma	3	4	65
+check	In which two of the following continents you find an animal like this in nature?	Africa	Asia	North America	South America	photoaudio	puma	puma	1	2	65
 check	In which two of the following continents you find an animal like this in nature?	Africa	Asia	North America	South America	photoaudio	rhino	rhino	1	2	35
 check	"Which two of the following would you use to make a Greek Salad ;"	Onion's	Tomato's	Ham	Mozzarella	photo	greeksalad	null	1	2	36
-check	"Which two of the following would you use to make a Soupe de chalet  ;"	Onion's	Pasta	Tomato's	Ham	photo	soupedechalet 	null	1	2	37
 check	"Which two of the following would you use to make apple strudel ;"	Sugar	Butter	Eggs	Orange Juice	photo	applestrudel	null	1	2	38
 check	"Which two of the following would you use to make Danish Pastry ;"	Salt	Milk	Chocolate	Orange Juice	photo	danishpastry	null	1	2	65
 check	"Which two of the following would you use to make Spanish Paella ;"	Seafoods	Beans	Sugar	Tomato's	photo	paella	null	1	2	54

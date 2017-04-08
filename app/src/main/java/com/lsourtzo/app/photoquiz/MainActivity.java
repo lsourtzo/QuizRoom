@@ -1,12 +1,16 @@
 package com.lsourtzo.app.photoquiz;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.graphics.drawable.AnimationDrawable;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,26 +28,45 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static android.R.attr.password;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom2;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom3;
-import static com.lsourtzo.app.photoquiz.R.string.GameOver;
 
 public class MainActivity extends AppCompatActivity {
 
     // this Variable NO needs to save on state -----------------------------------------------------------------
+    boolean tempB;
+    int tempI;
 
     int[] clocknames = new int[]{R.drawable.cl12, R.drawable.cl11, R.drawable.cl10, R.drawable.cl09, R.drawable.cl08, R.drawable.cl07, R.drawable.cl06, R.drawable.cl05, R.drawable.cl04, R.drawable.cl03, R.drawable.cl02, R.drawable.cl01, R.drawable.cl12};
     public String[] ScoreTableArray2 = new String[2]; // Use this string to seperate the question in to fields
@@ -52,8 +75,11 @@ public class MainActivity extends AppCompatActivity {
     int QNumber = 0; // total questions number
     int CNumber = 0;  // total correct number
     int Qtype = 0;   // Layer Type Number
+    int loginMethod;   // Layer Type Number
     boolean local = true; // true = local mode  --   false = internet mode
     String PlayerName = "Player";
+    String PlayerEmail;
+    String PlayerPassword;
 
     int TotalQuestionsInFile = 0; // total qouestion that we parse in to local file
     int TotalQuestions = 40; // The number of questions that we want to play
@@ -85,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     boolean onstart = true;
     boolean onrestore;
     boolean onresume;
+    boolean onlogin = true;
     boolean counttimerhasstoped = false;
     boolean timehasend = false;
 
@@ -97,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
     ScrollView svEditTextLayout;
     ScrollView svFinalResultLayout;
     ScrollView svStageLayers;
+    ScrollView svLoginScreen;
     ImageView svradio;
     ImageView svradio2;
     ImageView svwrong;
@@ -116,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
     TextView svRadioGroupQuestion;
     EditText svEditBox;
     EditText svNameText;
+    EditText svEmailEditBox;
+    EditText svPasswordEditBox;
     RadioButton svradiobutton_1;
     RadioButton svradiobutton_2;
     RadioButton svradiobutton_3;
@@ -133,25 +163,35 @@ public class MainActivity extends AppCompatActivity {
 
     String sFName;
     String sFScore;
+    String sFUID;
 
     public static class Player {
         public String firebaseName;
+        public String firebaseUID;
         public int firebaseScore;
 
         public Player() {
         }
 
-        public Player(String firebaseName, int firebaseScore) {
+        public Player(String firebaseName, String firebaseUID,int firebaseScore) {
             this.firebaseName = firebaseName;
+            this.firebaseUID = firebaseUID;
             this.firebaseScore = firebaseScore;
         }
 
     }
 
+    String tempuser;
+
+    // email auth var
     private FirebaseDatabase database;
     private DatabaseReference scoresFirabase;
-    private DatabaseReference scoresFirabaseGet;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
+    //google auth var
+    GoogleApiClient mGoogleApiClient;
+    private static int RC_SIGN_IN = 100;
 
 
     //// Where our porgram start.
@@ -164,7 +204,42 @@ public class MainActivity extends AppCompatActivity {
 
         //Firebase scoreboard
         database = FirebaseDatabase.getInstance();
-        scoresFirabase = database.getReference("score table");
+        scoresFirabase = database.getReference("score table new");
+        Log.d("OnLogin", " Create: "+ onlogin);
+       /// onlogin =true;
+
+        //Firebase  authentication
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Signed_in:", user.getUid());
+                } else {
+                    // User is signed out
+                    //Log.d("Signed_out:", user.getUid());
+                }
+                // ...
+            }
+        };
+
+
+        //Firebase Google Authentication
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                //.enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
 
         // initializing views
         svStartupLayout = (ScrollView) findViewById(R.id.StartupLayout);
@@ -173,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
         svEditTextLayout = (ScrollView) findViewById(R.id.EditTextLayout);
         svFinalResultLayout = (ScrollView) findViewById(R.id.FinalResultLayout);
         svStageLayers = (ScrollView) findViewById(R.id.StageLayers);
+        svLoginScreen = (ScrollView) findViewById(R.id.LoginScreen);
         svradio = (ImageView) findViewById(R.id.radio);
         svradio2 = (ImageView) findViewById(R.id.radio2);
         svwrong = (ImageView) findViewById(R.id.wrong);
@@ -192,6 +268,8 @@ public class MainActivity extends AppCompatActivity {
         svRadioGroupQuestion = (TextView) findViewById(R.id.RadioGroupQuestion);
         svEditBox = (EditText) findViewById(R.id.EditBox);
         svNameText = (EditText) findViewById(R.id.NameText);
+        svEmailEditBox = (EditText) findViewById(R.id.EmailEditBox);
+        svPasswordEditBox = (EditText) findViewById(R.id.PasswordEditBox);
         svradiobutton_1 = (RadioButton) findViewById(R.id.radiobutton_1);
         svradiobutton_2 = (RadioButton) findViewById(R.id.radiobutton_2);
         svradiobutton_3 = (RadioButton) findViewById(R.id.radiobutton_3);
@@ -236,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putInt("QNumberS", QNumber);
         savedInstanceState.putInt("CNumberS", CNumber);
         savedInstanceState.putInt("QtypeS", Qtype);
+        savedInstanceState.putInt("loginMethodS", loginMethod);
         savedInstanceState.putInt("TotalQuestionsInFileS", TotalQuestionsInFile);
         savedInstanceState.putInt("TotalQuestionsS", TotalQuestions);
         savedInstanceState.putInt("LevelQuestionsS", LevelQuestions);
@@ -247,9 +326,12 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putInt("rowsS", rows);
         savedInstanceState.putInt("AudioIdS", AudioId);
         savedInstanceState.putString("PlayerNameS", PlayerName);
+        savedInstanceState.putString("PlayerEmailS", PlayerEmail);
+        savedInstanceState.putString("PlayerPasswordS", PlayerPassword);
         savedInstanceState.putString("ScoreTableStringS", ScoreTableString);
         savedInstanceState.putString("ScoreTableString2S", ScoreTableString2);
         savedInstanceState.putString("QuestionLangSetS", QuestionLangSet);
+        savedInstanceState.putString("sFUIDS", sFUID);
         //Booleans
         savedInstanceState.putBoolean("localS", local);
         //Media
@@ -273,15 +355,14 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putBoolean("timehasendS", timehasend);
 
         savedInstanceState.putBoolean("onresumeS", onresume);
+        savedInstanceState.putBoolean("onloginS", onlogin);
 
         if (yourCountDownTimer != null) {
             counttimerhasstoped = true;
             yourCountDownTimer.cancel();
         }
         savedInstanceState.putBoolean("counttimerhasstopedS", counttimerhasstoped);
-
         super.onSaveInstanceState(savedInstanceState);
-
     }
 
     @Override
@@ -290,10 +371,11 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore state members from saved instance
         Qtype = savedInstanceState.getInt("QtypeS");
-        if (Qtype != 0) {
+        //if (Qtype == 0) {
 
             QNumber = savedInstanceState.getInt("QNumberS");
             CNumber = savedInstanceState.getInt("CNumberS");
+            loginMethod = savedInstanceState.getInt("loginMethodS");
 
             TotalQuestionsInFile = savedInstanceState.getInt("TotalQuestionsInFileS");
             TotalQuestions = savedInstanceState.getInt("TotalQuestionsS");
@@ -306,12 +388,16 @@ public class MainActivity extends AppCompatActivity {
             rows = savedInstanceState.getInt("rowsS");
             AudioId = savedInstanceState.getInt("AudioIdS");
             PlayerName = savedInstanceState.getString("PlayerNameS");
+            PlayerEmail = savedInstanceState.getString("PlayerEmailS");
+            PlayerPassword = savedInstanceState.getString("PlayerPasswordS");
             ScoreTableString = savedInstanceState.getString("ScoreTableStringS");
             ScoreTableString2 = savedInstanceState.getString("ScoreTableString2S");
             QuestionLangSet = savedInstanceState.getString("QuestionLangSetS");
+            sFUID = savedInstanceState.getString("sFUIDS");
             //Booleans
             local = savedInstanceState.getBoolean("localS");
             onresume = savedInstanceState.getBoolean("onresumeS");
+            onlogin = savedInstanceState.getBoolean("onloginS");
             //Media
             if (savedInstanceState.getBoolean("MediaPlayerStatusS")) {
                 int pos = savedInstanceState.getInt("mPlayerS");
@@ -331,6 +417,11 @@ public class MainActivity extends AppCompatActivity {
             onrestore = true;
 
             timerrestore();
+        //}
+        onlogin = savedInstanceState.getBoolean("onloginS");
+        Log.d("OnLogin", " onrestore: "+ onlogin);
+        if(!onlogin) { //hide login screen after resume
+            ScrollViewGone(svLoginScreen);
         }
     }
 
@@ -345,7 +436,27 @@ public class MainActivity extends AppCompatActivity {
             onrestore = false;
         }
         UnFocusEditText(svNameText);
+        Log.d("OnLogin", " onresume: "+ onlogin);
+        if(!onlogin) {//hide login screen after resume
+            ScrollViewGone(svLoginScreen);
+        }
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
 
     // time restore after orientation changed or close screen
     public void timerrestore() {
@@ -423,7 +534,6 @@ public class MainActivity extends AppCompatActivity {
             case 0: // StartupScreen
                 LevelNumber = 1;
                 timehasend = true;
-                PlayerName = EdittTextReturn(svNameText);
                 UnFocusEditText(svNameText);
                 CheckLevel();
                 break;
@@ -456,7 +566,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 6: // Level Layer
                 LevelNumber = 9;
-                GetScoreTable();
+                localScoreTable();
                 pushInFirebase();
                 CheckLevel();
                 break;
@@ -644,7 +754,7 @@ public class MainActivity extends AppCompatActivity {
                 LevelTime = 60000;
                 TotalScore = 0;
                 LevelQuestionsScore = 0;
-                setWebView("<font color=\"#5e3807\">"+ getString(R.string.Stage1)+ "<br /></font>", svStageLayersText);
+                setWebView("<font color=\"#5e3807\">" + getString(R.string.Stage1) + "<br /></font>", svStageLayersText);
                 ScrollViewVis(svStageLayers);
                 Qtype = 5;
                 break;
@@ -718,11 +828,11 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         TotalScoreCalculator(timesd, 0);
-        String DisplayText = "<font color=\"#5e3807\">"+ getString(val)+ "<br />" + "<br />" +
-                "<b>"+ getString(R.string.QuestionLevelTotal)+" " + "</b>" + LevelQuestionsScore + "<br />" +
-                "<b>"+ getString(R.string.SecondsLeft)+ "</b>" +" " +  sec + getString(R.string.Sec) + "<br />" +
-                "<b>"+ getString(R.string.TimeBonus)+ "</b>" +" " +  sec * timesd + " " + getString(R.string.Points) + "<br />" +
-                "<b>"+ getString(R.string.TotalScore)+ "</b>" +" " +  TotalScore + "<br /></font>";
+        String DisplayText = "<font color=\"#5e3807\">" + getString(val) + "<br />" + "<br />" +
+                "<b>" + getString(R.string.QuestionLevelTotal) + " " + "</b>" + LevelQuestionsScore + "<br />" +
+                "<b>" + getString(R.string.SecondsLeft) + "</b>" + " " + sec + getString(R.string.Sec) + "<br />" +
+                "<b>" + getString(R.string.TimeBonus) + "</b>" + " " + sec * timesd + " " + getString(R.string.Points) + "<br />" +
+                "<b>" + getString(R.string.TotalScore) + "</b>" + " " + TotalScore + "<br /></font>";
         Qtype = 5;
         setWebView(DisplayText, svStageLayersText);
         ScrollViewVis(svStageLayers);
@@ -732,10 +842,10 @@ public class MainActivity extends AppCompatActivity {
     // when we cut off next levell
     public void Cut(int timesd) {
         TotalScoreCalculator(timesd, 0);
-        String DisplayText = "<font color=\"#5e3807\"><b>"+ getString(R.string.QuestionLevelTotal) + "</b>"+ " " + LevelQuestionsScore + "<br />" +
-                "<b>"+ getString(R.string.SecondsLeft) + "</b>"+ " " + sec + getString(R.string.Sec) + "<br />" +
-                "<b>"+ getString(R.string.TimeBonus) + "</b>"+ " " + sec * timesd + " " + getString(R.string.Points) + "<br />" +
-                "<b>"+ getString(R.string.TotalScore) + "</b>"+ " " + TotalScore + "<br /></font>";
+        String DisplayText = "<font color=\"#5e3807\"><b>" + getString(R.string.QuestionLevelTotal) + "</b>" + " " + LevelQuestionsScore + "<br />" +
+                "<b>" + getString(R.string.SecondsLeft) + "</b>" + " " + sec + getString(R.string.Sec) + "<br />" +
+                "<b>" + getString(R.string.TimeBonus) + "</b>" + " " + sec * timesd + " " + getString(R.string.Points) + "<br />" +
+                "<b>" + getString(R.string.TotalScore) + "</b>" + " " + TotalScore + "<br /></font>";
         Qtype = 6;
         setWebView(DisplayText, svStageLayersText);
         ScrollViewVis(svStageLayers);
@@ -750,11 +860,11 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         TotalScoreCalculator(4, 300);
-        String DisplayText =  "<font color=\"#5e3807\">"+ getString(R.string.Final) + "<br />" + "<br />" +
-                "<b>"+ getString(R.string.QuestionLevelTotal) + "</b>"+ " "  + LevelQuestionsScore + "<br />" +
-                "<b>"+ getString(R.string.SecondsLeft) + "</b>"+ " "  + sec + getString(R.string.Sec) + "<br />" +
-                "<b>"+ getString(R.string.TimeBonus) + "</b>"+ " "  + sec * 4 + " " + getString(R.string.Points) + "<br />" +
-                "<b>"+ getString(R.string.TotalScore) + "</b>"+ " "  + TotalScore + "<br /></font>";
+        String DisplayText = "<font color=\"#5e3807\">" + getString(R.string.Final) + "<br />" + "<br />" +
+                "<b>" + getString(R.string.QuestionLevelTotal) + "</b>" + " " + LevelQuestionsScore + "<br />" +
+                "<b>" + getString(R.string.SecondsLeft) + "</b>" + " " + sec + getString(R.string.Sec) + "<br />" +
+                "<b>" + getString(R.string.TimeBonus) + "</b>" + " " + sec * 4 + " " + getString(R.string.Points) + "<br />" +
+                "<b>" + getString(R.string.TotalScore) + "</b>" + " " + TotalScore + "<br /></font>";
         Qtype = 6;
         setWebView(DisplayText, svStageLayersText);
         ScrollViewVis(svStageLayers);
@@ -764,10 +874,10 @@ public class MainActivity extends AppCompatActivity {
     // when we cut off in last Level
     public void FinalCut() {
         TotalScoreCalculator(2, 0);
-        String DisplayText = "<font color=\"#5e3807\"><b>"+  getString(R.string.QuestionLevelTotal) + "</b>"+ " "   + LevelQuestionsScore + "<br />" +
-                "<b>"+ getString(R.string.SecondsLeft) + "</b>"+ " "   +  sec + getString(R.string.Sec) + "<br />" +
-                "<b>"+ getString(R.string.TimeBonus) + "</b>"+ " "   + sec * 2 + " " + getString(R.string.Points) + "<br />" +
-                "<b>"+ getString(R.string.TotalScore) + "</b>"+ " "   + TotalScore + "<br /></font>";
+        String DisplayText = "<font color=\"#5e3807\"><b>" + getString(R.string.QuestionLevelTotal) + "</b>" + " " + LevelQuestionsScore + "<br />" +
+                "<b>" + getString(R.string.SecondsLeft) + "</b>" + " " + sec + getString(R.string.Sec) + "<br />" +
+                "<b>" + getString(R.string.TimeBonus) + "</b>" + " " + sec * 2 + " " + getString(R.string.Points) + "<br />" +
+                "<b>" + getString(R.string.TotalScore) + "</b>" + " " + TotalScore + "<br /></font>";
         Qtype = 6;
         setWebView(DisplayText, svStageLayersText);
         ScrollViewVis(svStageLayers);
@@ -776,7 +886,7 @@ public class MainActivity extends AppCompatActivity {
 
     //game Over effect
 
-    public void gameOver(){
+    public void gameOver() {
         try {
             gameOverAnimation();
         } catch (InterruptedException e) {
@@ -786,14 +896,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void gameOverHide (View V){
+    public void gameOverHide(View V) {
         ImageViewGone(svgameover);
         ImageViewGone(svcrack);
         ImageViewVis(svOkButton);
     }
 
-    public void congratsHide (View V){
+    public void congratsHide(View V) {
         ImageViewGone(svcongrats);
         ImageViewGone(svfw);
         ImageViewVis(svOkButton);
@@ -840,17 +949,17 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i <= 9; ++i) {
             ScoreTableArray = (separated[i].split("\t"));
             if (i % 2 == 0) {
-                ScoreTableString = ScoreTableString + "<tr style='background-color:#E2BC8B;color:#5e3807;'><td width=\"70%\"> " + (i+1)+". " +  ScoreTableArray[0] + "</td>"+ "<td>" + ScoreTableArray[1] + "</td></tr>";
-            }
-            else {
-                ScoreTableString = ScoreTableString + "<tr style='background-color:#5e3807;color:#E2BC8B;'><td width=\"70%\"> " + (i+1)+". " +  ScoreTableArray[0] + "</td>"+ "<td>" + ScoreTableArray[1] + "</td></tr>";
+                ScoreTableString = ScoreTableString + "<tr style='background-color:#E2BC8B;color:#5e3807;'><td width=\"70%\"> " + (i + 1) + ". " + ScoreTableArray[0] + "</td>" + "<td>" + ScoreTableArray[1] + "</td></tr>";
+            } else {
+                ScoreTableString = ScoreTableString + "<tr style='background-color:#5e3807;color:#E2BC8B;'><td width=\"70%\"> " + (i + 1) + ". " + ScoreTableArray[0] + "</td>" + "<td>" + ScoreTableArray[1] + "</td></tr>";
             }
         }
         setWebView(ScoreTableString, svFinalResaltNames);
 
 
         // WEB
-        GetFromFirebase();
+
+        firebaseScoretable();
         ScrollViewVis(svFinalResultLayout);
     }
 
@@ -913,14 +1022,16 @@ public class MainActivity extends AppCompatActivity {
         val.setVisibility(View.GONE);
     }
 
-    public void ImageViewInv(ImageView val) { val.setVisibility(View.INVISIBLE); }
+    public void ImageViewInv(ImageView val) {
+        val.setVisibility(View.INVISIBLE);
+    }
 
     public void ImageViewVis(ImageView val) {
         val.setVisibility(View.VISIBLE);
     }
 
-    public void ImageViewPading(ImageView val,int pad) {
-        val.setPadding(pad,pad,pad,pad);
+    public void ImageViewPading(ImageView val, int pad) {
+        val.setPadding(pad, pad, pad, pad);
     }
 
     // TextView Text changer ----------------------------------------------------
@@ -936,7 +1047,7 @@ public class MainActivity extends AppCompatActivity {
         }
         //where.getSettings().setUseWideViewPort(true);
         //where.getSettings().setLoadWithOverviewMode(true);
-        where.loadData (String.valueOf(what), "text/html; charset=utf-8", "UTF-8");
+        where.loadData(String.valueOf(what), "text/html; charset=utf-8", "UTF-8");
         where.setBackgroundColor(Color.TRANSPARENT);
     }
 
@@ -1087,14 +1198,14 @@ public class MainActivity extends AppCompatActivity {
         Animation zoomAnimation2 = AnimationUtils.loadAnimation(this, zoom2);
         ImageViewVis(svgameover);
         svgameover.startAnimation(zoomAnimation2);
-        Log.d("lpgd GameOver","1");
+        Log.d("lpgd GameOver", "1");
         zoomAnimation2.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 ImageViewGone(svOkButton);
                 RadioAudioStart("gameover");
-                ImageViewVis (svgameover);
-                Log.d("lpgd GameOver","start");
+                ImageViewVis(svgameover);
+                Log.d("lpgd GameOver", "start");
 
             }
 
@@ -1102,7 +1213,7 @@ public class MainActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 ImageViewVis(svcrack);
                 RadioAudioStart("crack");
-                Log.d("lpgd GameOver","stop");
+                Log.d("lpgd GameOver", "stop");
 
             }
 
@@ -1116,21 +1227,21 @@ public class MainActivity extends AppCompatActivity {
     public void congratsAnimation() throws InterruptedException {
         Animation zoomAnimation3 = AnimationUtils.loadAnimation(this, zoom3);
         ImageViewVis(svcongrats);
-        Log.d("lpgd Congrats","1");
+        Log.d("lpgd Congrats", "1");
         svcongrats.startAnimation(zoomAnimation3);
         zoomAnimation3.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                Log.d("lpgd Congrats","Start");
+                Log.d("lpgd Congrats", "Start");
                 ImageViewGone(svOkButton);
                 RadioAudioStart("ohyeah");
-                ImageViewVis (svcongrats);
+                ImageViewVis(svcongrats);
 
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Log.d("lpgd Congrats","Stop");
+                Log.d("lpgd Congrats", "Stop");
                 fwAnim.start();
                 ImageViewVis(svfw);
 
@@ -1188,27 +1299,51 @@ public class MainActivity extends AppCompatActivity {
 
 
     // firebase scoretable
+
     private void pushInFirebase() {
+        Log.d("pushInFirebase ", " sFUID"+ sFUID + " loginMethod"+ loginMethod );
+        if ((sFUID != null)&&(loginMethod != 3)) {
+            tempB = false;
+            final DatabaseReference player = database.getReference("score table new");
+            Query pendingTasks = player.orderByChild("firebaseUID").equalTo(sFUID);
+            pendingTasks.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot tasksSnapshot) {
+                    for (DataSnapshot snapshot : tasksSnapshot.getChildren()) {
+                        tempB = true;
+                        if ((Long) snapshot.child("firebaseScore").getValue()< TotalScore) {
+                            Log.d("pushInFirebase ", " IN 1");
+                            snapshot.getRef().child("firebaseName").setValue(PlayerName);
+                            snapshot.getRef().child("firebaseScore").setValue(TotalScore);
+                        }
+                    }
+                    if (!tempB) {
+                        Log.d("pushInFirebase ", " IN2 ");
+                        String key = scoresFirabase.push().getKey();
+                        scoresFirabase.child(key).child("firebaseName").setValue(PlayerName);
+                        scoresFirabase.child(key).child("firebaseUID").setValue(sFUID);
+                        scoresFirabase.child(key).child("firebaseScore").setValue(TotalScore);
+                    }
+                    firebaseScoretable();
 
-        final DatabaseReference player = database.getReference("score table");
 
-        String key = scoresFirabase.push().getKey();
-        if (PlayerName.equals("")){
-            scoresFirabase.child(key).child("firebaseName").setValue("No Name");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
         }
-        else
-        {
-            scoresFirabase.child(key).child("firebaseName").setValue(PlayerName);
-        }
-        scoresFirabase.child(key).child("firebaseScore").setValue(TotalScore);
+
     }
 
-    private void GetFromFirebase() {
+    private void firebaseScoretable() {
         sFName = "</table>";
         sFScore = "";
-        final DatabaseReference player = database.getReference("score table");
-        player.orderByChild("firebaseScore").limitToLast(30).addChildEventListener(new ChildEventListener()  {
-            int classification=30;
+        final DatabaseReference player = database.getReference("score table new");
+        player.orderByChild("firebaseScore").limitToLast(30).addChildEventListener(new ChildEventListener() {
+            int classification = 30;
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Player playerRef = dataSnapshot.getValue(Player.class);
@@ -1221,9 +1356,7 @@ public class MainActivity extends AppCompatActivity {
                         sFName = "<tr style='background-color:#5e3807;color:#E2BC8B;'><td width=\"70%\"> " + (classification) + ". " + playerRef.firebaseName + "</td>" + "<td>" + Integer.toString(playerRef.firebaseScore) + "</td></tr>" + sFName;
                     }
                     sFName = "<table width=\"100%\";>" + sFName;
-
                     setWebView(sFName, svFBFinalResaltNames);
-
                     classification = classification - 1;
                 }
             }
@@ -1251,7 +1384,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         // check firebase connectivity
 
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -1275,8 +1407,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Score table mehtods
-    private void GetScoreTable() throws IOException {
+    // Local Score table mehtods
+
+    private void localScoreTable() throws IOException {
         //https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo
         //http://stackoverflow.com/questions/7057845/save-arraylist-to-sharedpreferences
 
@@ -1345,6 +1478,268 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    // login screen methods
+
+    // email registration method
+    public void emailRegisterMethod(View v) {
+        FirebaseAuth.getInstance().signOut();
+        PlayerName = EdittTextReturn(svNameText);
+        PlayerEmail = EdittTextReturn(svEmailEditBox);
+        PlayerPassword = EdittTextReturn(svPasswordEditBox);
+
+        if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
+            if (isInternetConected()) { // check for internet connection
+                if (isEmailValid(PlayerEmail) && PlayerPassword.length() >= 6) { // check if email and password is in correct format
+                    mAuth.createUserWithEmailAndPassword(PlayerEmail, PlayerPassword)
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (!task.isSuccessful()) {
+                                        if (task.getException() instanceof FirebaseAuthUserCollisionException) { // check if registration is succesful
+                                            Toast.makeText(MainActivity.this, getString(R.string.toastLoginMessage1a1), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(MainActivity.this, getString(R.string.toastLoginMessage1a2), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(MainActivity.this, getString(R.string.toastLoginMessage2), Toast.LENGTH_SHORT).show();
+                                        loginMethod = 1; // email
+                                        FirebaseUser user = task.getResult().getUser();
+                                        sFUID = user.getUid();
+                                        Log.d("sFUID: ", " getUserID: " + sFUID);
+                                        leaveLoginScreen();
+                                    }
+                                }
+                            });
+                } else {
+                    Toast.makeText(this, getString(R.string.toastLoginMessage3), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+        Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+    }
+
+    }
+
+
+    // email login method
+    public void emailLoginMethod(View v) {
+        FirebaseAuth.getInstance().signOut();
+
+        PlayerName = EdittTextReturn(svNameText);
+        PlayerEmail = EdittTextReturn(svEmailEditBox);
+        PlayerPassword = EdittTextReturn(svPasswordEditBox);
+
+        if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
+            if (isInternetConected()) { // check for internet connection
+                if (isEmailValid(PlayerEmail) && PlayerPassword.length() >= 6) { // check if email and password is in correct format
+                    mAuth.signInWithEmailAndPassword(PlayerEmail, PlayerPassword)
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (!task.isSuccessful()) {
+                                        if (task.getException() instanceof FirebaseAuthInvalidUserException) { // check if registration is succesful
+                                            Toast.makeText(MainActivity.this, getString(R.string.toastLoginMessage1b1), Toast.LENGTH_SHORT).show();
+                                            Log.d("Authentication Email :", "invalid user name");
+                                        } else {
+                                            Toast.makeText(MainActivity.this, getString(R.string.toastLoginMessage1b2), Toast.LENGTH_SHORT).show();
+                                            Log.d("Authentication Email :", "other error");
+                                        }
+                                    } else {
+                                        Toast.makeText(MainActivity.this, getString(R.string.toastLoginMessage2b), Toast.LENGTH_SHORT).show();
+                                        loginMethod = 1; // email
+                                        FirebaseUser user = task.getResult().getUser();
+                                        sFUID = user.getUid();
+                                        Log.d("sFUID: ", " getUserID: " + sFUID);
+                                        leaveLoginScreen();
+
+                                    }
+                                }
+                            });
+                } else {
+                    Toast.makeText(this, getString(R.string.toastLoginMessage3), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    // login with google method
+    public void googleLoginMethod(View v) {
+        Toast.makeText(MainActivity.this, getString(R.string.toastGoogleMessage1a1), Toast.LENGTH_SHORT).show();
+        //loginMethod = 2; //google
+        // signIn();
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogle(account);
+                Log.d("Authentication G1 :", "correct");
+            } else {
+                Log.d("Authentication G1 :", "incorrect");
+                // Google Sign In failed, update UI appropriately
+                // ...
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("Authentication G2 :", "correct");
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.d("Authentication G2 :", "incorrect");
+                            //Log.w(TAG, "signInWithCredential", task.getException());
+                            //Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
+                            //Toast.LENGTH_SHORT).show();
+                        }
+                        // ...
+                    }
+                });
+        leaveLoginScreen();
+    }
+
+
+    // No login  method
+    public void noLoginMethod(View v) {
+        if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
+            loginMethod = 3; // no login
+            PlayerName = EdittTextReturn(svNameText);
+            leaveLoginScreen();
+        } else {
+            Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void LoginScreenShowUp(View v) {
+        Log.d("OnLogin", " login screen showup: "+ onlogin);
+        onlogin =true;
+        ScrollViewVis(svLoginScreen);
+    }
+
+
+    /**
+     * method is used for checking valid email id format.
+     */
+    public static boolean isEmailValid(String email) {
+        boolean isValid = false;
+
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    //leave login page
+
+    public void leaveLoginScreen() {
+        Log.d("OnLogin", " leaveLoginScreen: "+ onlogin);
+        onlogin =false;
+        UnFocusEditText(svNameText);
+        UnFocusEditText(svEmailEditBox);
+        UnFocusEditText(svPasswordEditBox);
+        if (loginMethod == 1) {
+            ScrollViewGone(svLoginScreen);
+        } else if (loginMethod == 2) {
+            ScrollViewGone(svLoginScreen);
+        } else {
+            ScrollViewGone(svLoginScreen);
+        }
+    }
+
+
+    // this method return user id
+    public String getUserID() {
+
+        //Firebase  authentication
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    tempuser = user.getUid();
+                    Log.d("Signed_in:", user.getUid());
+                } else {
+                    tempuser = null;
+                    // User is signed out
+                    Log.d("Not Signed_in:", user.getUid());
+                }
+                // ...
+            }
+        };
+        return tempuser;
+    }
+
+
+    // this method check if we are login in firebase
+    public boolean isAuthenticated() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Authentication check :", "correct");
+                    tempB = true;
+                } else {
+                    Log.d("Authentication check :", "incorrect");
+                    tempB = false;
+                }
+                // ...
+            }
+        };
+        return tempB;
+    }
+
+
+    // this method check if we are login in firebase
+    public boolean isInternetConected() {
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        } else {
+            connected = false;
+        }
+        return connected;
+    }
 
 }
 

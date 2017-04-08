@@ -15,10 +15,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:orientation="vertical"
         android:layout_alignParentTop="true"
-        android:orientation="vertical">
+        android:layout_alignParentLeft="true">
 
 
         <LinearLayout
@@ -175,20 +174,41 @@
                             style="@style/textbox3"
                             android:text="@string/WelcomeText" />
 
-                        <TextView
-                            style="@style/textbox3"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
-                            android:text="@string/NameTitle" />
+                        <LinearLayout
+                            android:onClick="LoginScreenShowUp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/marginsmall"
+                            android:layout_marginTop="@dimen/marginmedium"
+                            android:layout_marginLeft="@dimen/marginvlarge"
+                            android:layout_marginRight="@dimen/marginvlarge"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:background="@color/loginscreenbuttoncolor">
 
-                        <requestFocus />
+                            <ImageView
+                                android:layout_width="@dimen/iconsize2"
+                                android:layout_height="@dimen/iconsize2"
+                                android:paddingRight="@dimen/marginmedium"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/allicon"/>
 
-                        <EditText
-                            android:id="@+id/NameText"
-                            style="@style/edittextbox"
-                            android:hint="@string/NameText"
-                            android:maxLength="20"
-                            android:textAllCaps="true" />
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="fill_parent"
+                                android:background="@color/linecolor" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="@dimen/marginmedium"
+                                android:textColor="@color/QuestionColor"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/loginScreenButtonText" />
+                        </LinearLayout>
+
+
+
 
                     </LinearLayout>
                 </ScrollView>
@@ -220,8 +240,8 @@
 
 
                             <WebView
-                                style="@style/scoretabletextbox"
                                 android:id="@+id/FinalResaltNames"
+                                style="@style/scoretabletextbox"
                                 android:gravity="left" />
 
 
@@ -281,7 +301,6 @@
                 </ScrollView>
 
 
-
                 <ImageView
                     android:id="@+id/okbuttonimage"
                     style="@style/OKButton"
@@ -318,18 +337,18 @@
                         android:id="@+id/crack"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/crack"
                         android:onClick="gameOverHide"
-                        android:visibility="gone"/>
+                        android:src="@drawable/crack"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/gameover"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/gameover"
-                        android:padding="@dimen/gameoverpad"
                         android:onClick="gameOverHide"
-                        android:visibility="gone"/>
+                        android:padding="@dimen/gameoverpad"
+                        android:src="@drawable/gameover"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -344,19 +363,380 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:onClick="congratsHide"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/congratsulation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/congratulation"
-                        android:padding="@dimen/marginlarge"
                         android:onClick="congratsHide"
-                        android:visibility="gone"/>
+                        android:padding="@dimen/marginlarge"
+                        android:src="@drawable/congratulation"
+                        android:visibility="gone" />
 
 
                 </RelativeLayout>
+
+                <ScrollView
+                    android:id="@+id/LoginScreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/questionbackcolor2"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal|top"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/textbox3"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:text="@string/LoginWelcome" />
+
+                            <requestFocus />
+
+                            <TextView
+                                style="@style/textbox3"
+                                android:text="@string/NameTitle" />
+
+                            <EditText
+                                android:id="@+id/NameText"
+                                style="@style/edittextbox"
+                                android:hint="@string/NameText"
+                                android:maxLength="20"
+                                android:textAllCaps="true" />
+
+
+
+                            <TextView
+                                style="@style/textbox4"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:paddingTop="@dimen/marginsmall"
+                                android:text="@string/LoginText" />
+
+                            <TextView
+                                android:id="@+id/textView"
+                                style="@style/textbox4"
+                                android:background="@color/loginmethodscolor"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:paddingLeft="@dimen/marginsmall"
+                                android:layout_marginTop="@dimen/marginmedium"
+                                android:layout_marginBottom="@dimen/marginmedium"
+                                android:paddingBottom="@dimen/marginsmall"
+                                android:paddingTop="@dimen/marginsmall"
+                                android:text="@string/emailLoginText" />
+
+                            <requestFocus />
+
+                            <TextView
+                                style="@style/textbox4"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:text="@string/email1" />
+
+                            <requestFocus />
+
+                            <EditText
+                                android:id="@+id/EmailEditBox"
+                                style="@style/edittextbox"
+                                android:hint="@string/email2"
+                                android:maxLength="20"
+                                android:textAllCaps="true" />
+
+                            <TextView
+                                style="@style/textbox4"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:text="@string/password1" />
+
+                            <requestFocus />
+
+                            <EditText
+                                android:id="@+id/PasswordEditBox"
+                                style="@style/edittextbox"
+                                android:hint="@string/password2"
+                                android:maxLength="20"
+                                android:password="true"
+                                android:textAllCaps="true" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/marginmedium"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="@dimen/marginsmall"
+                                    android:paddingRight="@dimen/marginsmall"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:onClick="emailRegisterMethod"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="@dimen/marginmedium"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal"
+                                        android:background="@color/registerbuttoncolor">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/iconsize"
+                                            android:layout_height="@dimen/iconsize"
+                                            android:paddingRight="@dimen/marginmedium"
+                                            android:layout_gravity="center_vertical"
+                                            android:src="@drawable/registericon"/>
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="fill_parent"
+                                            android:background="@color/linecolor" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingLeft="@dimen/marginmedium"
+                                            android:textColor="@color/QuestionColor"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="@string/Register1" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:gravity="right"
+                                        android:paddingTop="@dimen/marginsmall">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:textSize="@dimen/smalltsize"
+                                            android:paddingLeft="@dimen/marginmedium"
+                                            android:textColor="@color/QuestionColor"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="@string/Register2" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="@dimen/marginsmall"
+                                    android:paddingRight="@dimen/marginsmall"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:background="@color/loginbuttoncolor"
+                                        android:gravity="center_vertical"
+                                        android:onClick="emailLoginMethod"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/marginmedium">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/iconsize"
+                                            android:layout_height="@dimen/iconsize"
+                                            android:layout_gravity="center_vertical"
+                                            android:paddingRight="@dimen/marginmedium"
+                                            android:src="@drawable/loginicon" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="fill_parent"
+                                            android:background="@color/linecolor" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:paddingLeft="@dimen/marginmedium"
+                                            android:text="@string/Login1"
+                                            android:textColor="@color/QuestionColor" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:gravity="right"
+                                        android:paddingTop="@dimen/marginsmall">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:textSize="@dimen/smalltsize"
+                                            android:paddingLeft="@dimen/marginmedium"
+                                            android:textColor="@color/QuestionColor"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="@string/Login2" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:textSize="@dimen/smalltsize"
+                                android:paddingLeft="@dimen/margintextlogin"
+                                android:paddingRight="@dimen/margintextlogin"
+                                android:textColor="@color/QuestionColor"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/Login2b" />
+
+                            <TextView
+                                style="@style/textbox4"
+                                android:layout_marginTop="@dimen/marginmedium"
+                                android:layout_marginBottom="@dimen/marginmedium"
+                                android:paddingLeft="@dimen/marginsmall"
+                                android:paddingTop="@dimen/marginsmall"
+                                android:paddingBottom="@dimen/marginsmall"
+                                android:background="@color/loginmethodscolor"
+                                android:text="@string/googleLoginText" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="@dimen/margingoogle"
+                                android:paddingRight="@dimen/margingoogle"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:onClick="googleLoginMethod"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/marginmedium"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:background="@color/googlebuttoncolor">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/iconsize"
+                                        android:layout_height="@dimen/iconsize"
+                                        android:paddingRight="@dimen/marginmedium"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/googleloginicon"/>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="fill_parent"
+                                        android:background="@color/linecolor" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:textColor="@color/questionbackcolor"
+                                        android:layout_gravity="center_vertical"
+
+                                        android:text="@string/google1" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="right"
+                                    android:paddingTop="@dimen/marginsmall">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="right"
+                                        android:textSize="@dimen/smalltsize"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:textColor="@color/QuestionColor"
+                                        android:layout_gravity="center_vertical"
+                                        android:text="@string/google2" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/textbox4"
+                                android:layout_marginTop="@dimen/marginmedium"
+                                android:layout_marginBottom="@dimen/marginmedium"
+                                android:paddingLeft="@dimen/marginsmall"
+                                android:paddingTop="@dimen/marginsmall"
+                                android:paddingBottom="@dimen/marginsmall"
+                                android:background="@color/loginmethodscolor"
+                                android:text="@string/noLoginText" />
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="@dimen/margingoogle"
+                                android:paddingRight="@dimen/margingoogle"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:onClick="noLoginMethod"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/marginmedium"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:background="@color/localbuttoncolor">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/iconsize"
+                                        android:layout_height="@dimen/iconsize"
+                                        android:paddingRight="@dimen/marginmedium"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/mobile"/>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="fill_parent"
+                                        android:background="@color/linecolor" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:layout_gravity="center_vertical"
+                                        android:textColor="@color/QuestionColor"
+                                        android:text="@string/nologin1" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="right"
+                                    android:paddingTop="@dimen/marginsmall">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="right"
+                                        android:textSize="@dimen/smalltsize"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:textColor="@color/QuestionColor"
+                                        android:layout_gravity="center_vertical"
+                                        android:text="@string/nologin2" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+                </ScrollView>
 
             </RelativeLayout>
 

@@ -8,9 +8,18 @@
     <color name="QuestionColor">#5e3807</color>
 
     <color name="questionbackcolor">#baffffff</color>
+    <color name="questionbackcolor2">#fdefef</color>
 
     <color name="bottombar">#b95e3807</color>
     <color name="bottomtext">#FFFFFF</color>
+
+    <color name="registerbuttoncolor">#6dec62</color>
+    <color name="loginbuttoncolor">#789bec</color>
+    <color name="googlebuttoncolor">#ec2528</color>
+    <color name="loginscreenbuttoncolor">#deefbbfd</color>
+    <color name="localbuttoncolor">#f9ff4c</color>
+    <color name="linecolor">#8b000000</color>
+    <color name="loginmethodscolor">#dffcbee2</color>
 
     <color name="test">#fff4fe</color>
 
