@@ -1573,9 +1573,9 @@ public class MainActivity extends AppCompatActivity {
 
     // login with google method
     public void googleLoginMethod(View v) {
-        Toast.makeText(MainActivity.this, getString(R.string.toastGoogleMessage1a1), Toast.LENGTH_SHORT).show();
-        //loginMethod = 2; //google
-        // signIn();
+        //Toast.makeText(MainActivity.this, getString(R.string.toastGoogleMessage1a1), Toast.LENGTH_SHORT).show();
+        loginMethod = 2; //google
+        signIn();
     }
 
     private void signIn() {
