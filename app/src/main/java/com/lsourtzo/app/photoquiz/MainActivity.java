@@ -1487,11 +1487,10 @@ public class MainActivity extends AppCompatActivity {
     // email registration method
     public void emailRegisterMethod(View v) {
         FirebaseAuth.getInstance().signOut();
-        PlayerName = EdittTextReturn(svNameText);
         PlayerEmail = EdittTextReturn(svEmailEditBox);
         PlayerPassword = EdittTextReturn(svPasswordEditBox);
 
-        if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
+        //if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
             if (isInternetConected()) { // check for internet connection
                 if (isEmailValid(PlayerEmail) && PlayerPassword.length() >= 6) { // check if email and password is in correct format
                     mAuth.createUserWithEmailAndPassword(PlayerEmail, PlayerPassword)
@@ -1509,6 +1508,10 @@ public class MainActivity extends AppCompatActivity {
                                         loginMethod = 1; // email
                                         FirebaseUser user = task.getResult().getUser();
                                         sFUID = user.getUid();
+                                        PlayerName = user.getDisplayName();
+                                        if (PlayerName==null){
+                                            PlayerName = PlayerEmail;
+                                        }
                                         Log.d("sFUID: ", " getUserID: " + sFUID);
                                         leaveLoginScreen();
                                     }
@@ -1520,9 +1523,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
-        }
+        //} else {
+        //    Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+        //}
 
     }
 
@@ -1531,11 +1534,11 @@ public class MainActivity extends AppCompatActivity {
     public void emailLoginMethod(View v) {
         FirebaseAuth.getInstance().signOut();
 
-        PlayerName = EdittTextReturn(svNameText);
+        //PlayerName = EdittTextReturn(svNameText);
         PlayerEmail = EdittTextReturn(svEmailEditBox);
         PlayerPassword = EdittTextReturn(svPasswordEditBox);
 
-        if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
+        //if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
             if (isInternetConected()) { // check for internet connection
                 if (isEmailValid(PlayerEmail) && PlayerPassword.length() >= 6) { // check if email and password is in correct format
                     mAuth.signInWithEmailAndPassword(PlayerEmail, PlayerPassword)
@@ -1555,6 +1558,10 @@ public class MainActivity extends AppCompatActivity {
                                         loginMethod = 1; // email
                                         FirebaseUser user = task.getResult().getUser();
                                         sFUID = user.getUid();
+                                        PlayerName = user.getDisplayName();
+                                        if (PlayerName==null){
+                                            PlayerName = PlayerEmail;
+                                        }
                                         Log.d("sFUID: ", " getUserID: " + sFUID);
                                         leaveLoginScreen();
 
@@ -1567,9 +1574,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
-        }
+        //} else {
+        //    Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+        //}
 
     }
 
