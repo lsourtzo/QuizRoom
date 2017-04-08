@@ -60,7 +60,7 @@
 
     <string name="toastNickNameCheck">Το όνομα σας πρέπει να είναι 3 με 20 χαρακτήρες.</string>
 
-    <string name="toastGoogleMessage1a1">Sorry this method it\'s not working yet.</string>
+    <string name="toastGoogleMessage1a1">Κάτι πήγε στραβά, δοκιμάστε ξανά σε λίγο</string>
 
     <string name="loginScreenButtonText">Συνδεθείτε ή τροποποιήστε τον τρόπο σύνδεσης σας.</string>
     <string name="Login2b">μόνο το μεγαλύτερο σκορ ανά λογαριασμό θα καταχωρείται στον παγκόσμιο πίνακα αποτελεσμάτων.</string>

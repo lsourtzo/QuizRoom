@@ -67,7 +67,7 @@
 
     <string name="toastNickNameCheck">Your Nickname must be 3 to 20 characters.</string>
 
-    <string name="toastGoogleMessage1a1">Sorry this method it\'s not working yet.</string>
+    <string name="toastGoogleMessage1a1">Something is going wrong, sorry try again later.</string>
 
     <string name="loginScreenButtonText">Connect or change connection method.</string>
 

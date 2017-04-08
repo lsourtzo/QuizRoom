@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.graphics.drawable.AnimationDrawable;
@@ -57,6 +58,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.R.attr.data;
 import static android.R.attr.password;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom2;
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         public Player() {
         }
 
-        public Player(String firebaseName, String firebaseUID,int firebaseScore) {
+        public Player(String firebaseName, String firebaseUID, int firebaseScore) {
             this.firebaseName = firebaseName;
             this.firebaseUID = firebaseUID;
             this.firebaseScore = firebaseScore;
@@ -182,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     String tempuser;
+
 
     // email auth var
     private FirebaseDatabase database;
@@ -205,8 +208,8 @@ public class MainActivity extends AppCompatActivity {
         //Firebase scoreboard
         database = FirebaseDatabase.getInstance();
         scoresFirabase = database.getReference("score table new");
-        Log.d("OnLogin", " Create: "+ onlogin);
-       /// onlogin =true;
+        Log.d("OnLogin", " Create: " + onlogin);
+        /// onlogin =true;
 
         //Firebase  authentication
         mAuth = FirebaseAuth.getInstance();
@@ -373,54 +376,54 @@ public class MainActivity extends AppCompatActivity {
         Qtype = savedInstanceState.getInt("QtypeS");
         //if (Qtype == 0) {
 
-            QNumber = savedInstanceState.getInt("QNumberS");
-            CNumber = savedInstanceState.getInt("CNumberS");
-            loginMethod = savedInstanceState.getInt("loginMethodS");
+        QNumber = savedInstanceState.getInt("QNumberS");
+        CNumber = savedInstanceState.getInt("CNumberS");
+        loginMethod = savedInstanceState.getInt("loginMethodS");
 
-            TotalQuestionsInFile = savedInstanceState.getInt("TotalQuestionsInFileS");
-            TotalQuestions = savedInstanceState.getInt("TotalQuestionsS");
-            LevelQuestions = savedInstanceState.getInt("LevelQuestionsS");
-            NextQuestionNumber = savedInstanceState.getInt("NextQuestionNumberS");
-            LevelNumber = savedInstanceState.getInt("LevelNumberS");
-            TotalScore = savedInstanceState.getInt("TotalScoreS");
-            LevelQuestionsScore = savedInstanceState.getInt("LevelQuestionsScoreS");
-            LevelTime = savedInstanceState.getLong("LevelTimeS");
-            rows = savedInstanceState.getInt("rowsS");
-            AudioId = savedInstanceState.getInt("AudioIdS");
-            PlayerName = savedInstanceState.getString("PlayerNameS");
-            PlayerEmail = savedInstanceState.getString("PlayerEmailS");
-            PlayerPassword = savedInstanceState.getString("PlayerPasswordS");
-            ScoreTableString = savedInstanceState.getString("ScoreTableStringS");
-            ScoreTableString2 = savedInstanceState.getString("ScoreTableString2S");
-            QuestionLangSet = savedInstanceState.getString("QuestionLangSetS");
-            sFUID = savedInstanceState.getString("sFUIDS");
-            //Booleans
-            local = savedInstanceState.getBoolean("localS");
-            onresume = savedInstanceState.getBoolean("onresumeS");
-            onlogin = savedInstanceState.getBoolean("onloginS");
-            //Media
-            if (savedInstanceState.getBoolean("MediaPlayerStatusS")) {
-                int pos = savedInstanceState.getInt("mPlayerS");
-                mPlayer = MediaPlayer.create(this, AudioId);
-                mPlayer.seekTo(pos);
-            }
-            //Arrays
-            QuestionArray = savedInstanceState.getStringArray("QuestionArrayS");
-            RandomQuestionNumber = savedInstanceState.getIntArray("RandomQuestionNumberS");
-            AnswearArray = savedInstanceState.getIntArray("AnswearArrayS");
-            //Animation clock
-            sec = savedInstanceState.getInt("secS");
-            clocknames = savedInstanceState.getIntArray("clocknamesS");
-            tempmilis = savedInstanceState.getLong("tempmilisS");
-            onstart = savedInstanceState.getBoolean("onstartS");
-            timehasend = savedInstanceState.getBoolean("timehasendS");
-            onrestore = true;
+        TotalQuestionsInFile = savedInstanceState.getInt("TotalQuestionsInFileS");
+        TotalQuestions = savedInstanceState.getInt("TotalQuestionsS");
+        LevelQuestions = savedInstanceState.getInt("LevelQuestionsS");
+        NextQuestionNumber = savedInstanceState.getInt("NextQuestionNumberS");
+        LevelNumber = savedInstanceState.getInt("LevelNumberS");
+        TotalScore = savedInstanceState.getInt("TotalScoreS");
+        LevelQuestionsScore = savedInstanceState.getInt("LevelQuestionsScoreS");
+        LevelTime = savedInstanceState.getLong("LevelTimeS");
+        rows = savedInstanceState.getInt("rowsS");
+        AudioId = savedInstanceState.getInt("AudioIdS");
+        PlayerName = savedInstanceState.getString("PlayerNameS");
+        PlayerEmail = savedInstanceState.getString("PlayerEmailS");
+        PlayerPassword = savedInstanceState.getString("PlayerPasswordS");
+        ScoreTableString = savedInstanceState.getString("ScoreTableStringS");
+        ScoreTableString2 = savedInstanceState.getString("ScoreTableString2S");
+        QuestionLangSet = savedInstanceState.getString("QuestionLangSetS");
+        sFUID = savedInstanceState.getString("sFUIDS");
+        //Booleans
+        local = savedInstanceState.getBoolean("localS");
+        onresume = savedInstanceState.getBoolean("onresumeS");
+        onlogin = savedInstanceState.getBoolean("onloginS");
+        //Media
+        if (savedInstanceState.getBoolean("MediaPlayerStatusS")) {
+            int pos = savedInstanceState.getInt("mPlayerS");
+            mPlayer = MediaPlayer.create(this, AudioId);
+            mPlayer.seekTo(pos);
+        }
+        //Arrays
+        QuestionArray = savedInstanceState.getStringArray("QuestionArrayS");
+        RandomQuestionNumber = savedInstanceState.getIntArray("RandomQuestionNumberS");
+        AnswearArray = savedInstanceState.getIntArray("AnswearArrayS");
+        //Animation clock
+        sec = savedInstanceState.getInt("secS");
+        clocknames = savedInstanceState.getIntArray("clocknamesS");
+        tempmilis = savedInstanceState.getLong("tempmilisS");
+        onstart = savedInstanceState.getBoolean("onstartS");
+        timehasend = savedInstanceState.getBoolean("timehasendS");
+        onrestore = true;
 
-            timerrestore();
+        timerrestore();
         //}
         onlogin = savedInstanceState.getBoolean("onloginS");
-        Log.d("OnLogin", " onrestore: "+ onlogin);
-        if(!onlogin) { //hide login screen after resume
+        Log.d("OnLogin", " onrestore: " + onlogin);
+        if (!onlogin) { //hide login screen after resume
             ScrollViewGone(svLoginScreen);
         }
     }
@@ -436,8 +439,8 @@ public class MainActivity extends AppCompatActivity {
             onrestore = false;
         }
         UnFocusEditText(svNameText);
-        Log.d("OnLogin", " onresume: "+ onlogin);
-        if(!onlogin) {//hide login screen after resume
+        Log.d("OnLogin", " onresume: " + onlogin);
+        if (!onlogin) {//hide login screen after resume
             ScrollViewGone(svLoginScreen);
         }
     }
@@ -1301,8 +1304,8 @@ public class MainActivity extends AppCompatActivity {
     // firebase scoretable
 
     private void pushInFirebase() {
-        Log.d("pushInFirebase ", " sFUID"+ sFUID + " loginMethod"+ loginMethod );
-        if ((sFUID != null)&&(loginMethod != 3)) {
+        Log.d("pushInFirebase ", " sFUID" + sFUID + " loginMethod" + loginMethod);
+        if ((sFUID != null) && (loginMethod != 3)) {
             tempB = false;
             final DatabaseReference player = database.getReference("score table new");
             Query pendingTasks = player.orderByChild("firebaseUID").equalTo(sFUID);
@@ -1311,7 +1314,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot tasksSnapshot) {
                     for (DataSnapshot snapshot : tasksSnapshot.getChildren()) {
                         tempB = true;
-                        if ((Long) snapshot.child("firebaseScore").getValue()< TotalScore) {
+                        if ((Long) snapshot.child("firebaseScore").getValue() < TotalScore) {
                             Log.d("pushInFirebase ", " IN 1");
                             snapshot.getRef().child("firebaseName").setValue(PlayerName);
                             snapshot.getRef().child("firebaseScore").setValue(TotalScore);
@@ -1518,8 +1521,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
             }
         } else {
-        Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
-    }
+            Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -1575,7 +1578,11 @@ public class MainActivity extends AppCompatActivity {
     public void googleLoginMethod(View v) {
         //Toast.makeText(MainActivity.this, getString(R.string.toastGoogleMessage1a1), Toast.LENGTH_SHORT).show();
         loginMethod = 2; //google
-        signIn();
+            if (isInternetConected()) { // check for internet connection
+                signIn();
+            } else {
+                Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
+            }
     }
 
     private void signIn() {
@@ -1587,19 +1594,25 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
+                sFUID = account.getId();
+                PlayerName = account.getDisplayName();
                 firebaseAuthWithGoogle(account);
-                Log.d("Authentication G1 :", "correct");
+                Toast.makeText(MainActivity.this, getString(R.string.toastLoginMessage2b), Toast.LENGTH_SHORT).show();
+                Log.d("Authentication G1 :", "correct" + " getUserID: " + sFUID);
             } else {
                 Log.d("Authentication G1 :", "incorrect");
+                Toast.makeText(this, getString(R.string.toastGoogleMessage1a1), Toast.LENGTH_SHORT).show();
                 // Google Sign In failed, update UI appropriately
                 // ...
             }
         }
+
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -1624,6 +1637,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         leaveLoginScreen();
+
     }
 
 
@@ -1639,8 +1653,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void LoginScreenShowUp(View v) {
-        Log.d("OnLogin", " login screen showup: "+ onlogin);
-        onlogin =true;
+        Log.d("OnLogin", " login screen showup: " + onlogin);
+        onlogin = true;
         ScrollViewVis(svLoginScreen);
     }
 
@@ -1665,8 +1679,8 @@ public class MainActivity extends AppCompatActivity {
     //leave login page
 
     public void leaveLoginScreen() {
-        Log.d("OnLogin", " leaveLoginScreen: "+ onlogin);
-        onlogin =false;
+        Log.d("OnLogin", " leaveLoginScreen: " + onlogin);
+        onlogin = false;
         UnFocusEditText(svNameText);
         UnFocusEditText(svEmailEditBox);
         UnFocusEditText(svPasswordEditBox);
