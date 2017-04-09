@@ -518,7 +518,16 @@
 
                             <requestFocus />
 
+                            <TextView
+                                style="@style/textbox3"
+                                android:text="@string/NameTitle" />
 
+                            <EditText
+                                android:id="@+id/NameText"
+                                style="@style/edittextbox"
+                                android:hint="@string/NameText"
+                                android:maxLength="20"
+                                android:textAllCaps="true" />
 
                             <TextView
                                 style="@style/textbox4"
@@ -779,16 +788,7 @@
                                 android:background="@color/loginmethodscolor"
                                 android:text="@string/noLoginText" />
 
-                            <TextView
-                                style="@style/textbox3"
-                                android:text="@string/NameTitle" />
 
-                            <EditText
-                                android:id="@+id/NameText"
-                                style="@style/edittextbox"
-                                android:hint="@string/NameText"
-                                android:maxLength="20"
-                                android:textAllCaps="true" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"

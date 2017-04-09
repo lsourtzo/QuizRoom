@@ -201,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         CheckLanguageMehtod();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -1490,7 +1492,7 @@ public class MainActivity extends AppCompatActivity {
         PlayerEmail = EdittTextReturn(svEmailEditBox);
         PlayerPassword = EdittTextReturn(svPasswordEditBox);
 
-        //if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
+        if ((PlayerName.equals("")) || (PlayerName.length() >= 3 && PlayerName.length() <= 20)) {
             if (isInternetConected()) { // check for internet connection
                 if (isEmailValid(PlayerEmail) && PlayerPassword.length() >= 6) { // check if email and password is in correct format
                     mAuth.createUserWithEmailAndPassword(PlayerEmail, PlayerPassword)
@@ -1509,8 +1511,11 @@ public class MainActivity extends AppCompatActivity {
                                         FirebaseUser user = task.getResult().getUser();
                                         sFUID = user.getUid();
                                         PlayerName = user.getDisplayName();
-                                        if (PlayerName==null){
-                                            PlayerName = PlayerEmail;
+                                        if (PlayerName==null || PlayerName.equals("")){
+                                            PlayerName = EdittTextReturn(svNameText);
+                                            if (PlayerName==null || PlayerName.equals("")){
+                                                PlayerName = PlayerEmail;
+                                            }
                                         }
                                         Log.d("sFUID: ", " getUserID: " + sFUID);
                                         leaveLoginScreen();
@@ -1523,9 +1528,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
             }
-        //} else {
-        //    Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
-        //}
+        } else {
+            Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -1533,12 +1538,10 @@ public class MainActivity extends AppCompatActivity {
     // email login method
     public void emailLoginMethod(View v) {
         FirebaseAuth.getInstance().signOut();
-
-        //PlayerName = EdittTextReturn(svNameText);
         PlayerEmail = EdittTextReturn(svEmailEditBox);
         PlayerPassword = EdittTextReturn(svPasswordEditBox);
 
-        //if (PlayerName.length() >= 3 && PlayerName.length() <= 20) {
+        if ((PlayerName.equals("")) || (PlayerName.length() >= 3 && PlayerName.length() <= 20)) {
             if (isInternetConected()) { // check for internet connection
                 if (isEmailValid(PlayerEmail) && PlayerPassword.length() >= 6) { // check if email and password is in correct format
                     mAuth.signInWithEmailAndPassword(PlayerEmail, PlayerPassword)
@@ -1559,8 +1562,11 @@ public class MainActivity extends AppCompatActivity {
                                         FirebaseUser user = task.getResult().getUser();
                                         sFUID = user.getUid();
                                         PlayerName = user.getDisplayName();
-                                        if (PlayerName==null){
-                                            PlayerName = PlayerEmail;
+                                        if (PlayerName==null || PlayerName.equals("")){
+                                            PlayerName = EdittTextReturn(svNameText);
+                                            if (PlayerName==null || PlayerName.equals("")){
+                                                PlayerName = PlayerEmail;
+                                            }
                                         }
                                         Log.d("sFUID: ", " getUserID: " + sFUID);
                                         leaveLoginScreen();
@@ -1574,9 +1580,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
             }
-        //} else {
-        //    Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
-        //}
+        } else {
+            Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -1585,16 +1591,23 @@ public class MainActivity extends AppCompatActivity {
     public void googleLoginMethod(View v) {
         //Toast.makeText(MainActivity.this, getString(R.string.toastGoogleMessage1a1), Toast.LENGTH_SHORT).show();
         loginMethod = 2; //google
+        PlayerName = EdittTextReturn(svNameText);
+        if ((PlayerName.equals("")) || (PlayerName.length() >= 3 && PlayerName.length() <= 20)) {
             if (isInternetConected()) { // check for internet connection
                 signIn();
             } else {
                 Toast.makeText(this, getString(R.string.toastLoginMessage4), Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(this, getString(R.string.toastNickNameCheck), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void signIn() {
+
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     @Override
@@ -1608,7 +1621,9 @@ public class MainActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 sFUID = account.getId();
-                PlayerName = account.getDisplayName();
+                if (PlayerName.equals("")){
+                    PlayerName = account.getDisplayName();
+                }
                 firebaseAuthWithGoogle(account);
                 Toast.makeText(MainActivity.this, getString(R.string.toastLoginMessage2b), Toast.LENGTH_SHORT).show();
                 Log.d("Authentication G1 :", "correct" + " getUserID: " + sFUID);
@@ -1761,7 +1776,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return connected;
     }
-
 }
 
 
