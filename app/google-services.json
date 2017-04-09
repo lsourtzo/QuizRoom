@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "381849584838",
+    "firebase_url": "https://quizroom-6b2d7.firebaseio.com",
+    "project_id": "quizroom-6b2d7",
+    "storage_bucket": "quizroom-6b2d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381849584838:android:deb54dbd7736c252",
+        "android_client_info": {
+          "package_name": "com.lsourtzo.app.quizroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381849584838-kaidvnv98plkmvnjb8pa899to13nq1jt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lsourtzo.app.quizroom",
+            "certificate_hash": "27a569096e2d3f2832c38a00ec8d31c266a63fa5"
+          }
+        },
+        {
+          "client_id": "381849584838-s47h5pjsabbgqb2ghv3buj16qmg4u6a3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7K5wipaLVawZqeOFMiE7UmSCy-4UenMI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381849584838-s47h5pjsabbgqb2ghv3buj16qmg4u6a3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
