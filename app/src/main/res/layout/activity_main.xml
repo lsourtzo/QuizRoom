@@ -15,9 +15,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true">
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -175,23 +175,23 @@
                             android:text="@string/WelcomeText" />
 
                         <LinearLayout
-                            android:onClick="LoginScreenShowUp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/marginsmall"
-                            android:layout_marginTop="@dimen/marginmedium"
                             android:layout_marginLeft="@dimen/marginvlarge"
                             android:layout_marginRight="@dimen/marginvlarge"
+                            android:layout_marginTop="@dimen/marginmedium"
+                            android:background="@color/loginscreenbuttoncolor"
                             android:gravity="center_vertical"
+                            android:onClick="LoginScreenShowUp"
                             android:orientation="horizontal"
-                            android:background="@color/loginscreenbuttoncolor">
+                            android:padding="@dimen/marginsmall">
 
                             <ImageView
                                 android:layout_width="@dimen/iconsize2"
                                 android:layout_height="@dimen/iconsize2"
-                                android:paddingRight="@dimen/marginmedium"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/allicon"/>
+                                android:paddingRight="@dimen/marginmedium"
+                                android:src="@drawable/allicon" />
 
                             <View
                                 android:layout_width="1dp"
@@ -201,13 +201,11 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="@dimen/marginmedium"
-                                android:textColor="@color/QuestionColor"
                                 android:layout_gravity="center_vertical"
-                                android:text="@string/loginScreenButtonText" />
+                                android:paddingLeft="@dimen/marginmedium"
+                                android:text="@string/loginScreenButtonText"
+                                android:textColor="@color/QuestionColor" />
                         </LinearLayout>
-
-
 
 
                     </LinearLayout>
@@ -414,7 +412,6 @@
                                 android:textAllCaps="true" />
 
 
-
                             <TextView
                                 style="@style/textbox4"
                                 android:focusable="true"
@@ -425,13 +422,13 @@
                             <TextView
                                 android:id="@+id/textView"
                                 style="@style/textbox4"
+                                android:layout_marginBottom="@dimen/marginmedium"
+                                android:layout_marginTop="@dimen/marginmedium"
                                 android:background="@color/loginmethodscolor"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true"
-                                android:paddingLeft="@dimen/marginsmall"
-                                android:layout_marginTop="@dimen/marginmedium"
-                                android:layout_marginBottom="@dimen/marginmedium"
                                 android:paddingBottom="@dimen/marginsmall"
+                                android:paddingLeft="@dimen/marginsmall"
                                 android:paddingTop="@dimen/marginsmall"
                                 android:text="@string/emailLoginText" />
 
@@ -449,7 +446,6 @@
                                 android:id="@+id/EmailEditBox"
                                 style="@style/edittextbox"
                                 android:hint="@string/email2"
-                                android:maxLength="20"
                                 android:textAllCaps="true" />
 
                             <TextView
@@ -464,39 +460,38 @@
                                 android:id="@+id/PasswordEditBox"
                                 style="@style/edittextbox"
                                 android:hint="@string/password2"
-                                android:maxLength="20"
                                 android:password="true"
                                 android:textAllCaps="true" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="@dimen/marginmedium"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:padding="@dimen/marginmedium">
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
                                     android:paddingLeft="@dimen/marginsmall"
-                                    android:paddingRight="@dimen/marginsmall"
-                                    android:orientation="vertical">
+                                    android:paddingRight="@dimen/marginsmall">
 
                                     <LinearLayout
-                                        android:onClick="emailRegisterMethod"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:padding="@dimen/marginmedium"
+                                        android:background="@color/registerbuttoncolor"
                                         android:gravity="center_vertical"
+                                        android:onClick="emailRegisterMethod"
                                         android:orientation="horizontal"
-                                        android:background="@color/registerbuttoncolor">
+                                        android:padding="@dimen/marginmedium">
 
                                         <ImageView
                                             android:layout_width="@dimen/iconsize"
                                             android:layout_height="@dimen/iconsize"
-                                            android:paddingRight="@dimen/marginmedium"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@drawable/registericon"/>
+                                            android:paddingRight="@dimen/marginmedium"
+                                            android:src="@drawable/registericon" />
 
                                         <View
                                             android:layout_width="1dp"
@@ -506,37 +501,38 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:paddingLeft="@dimen/marginmedium"
-                                            android:textColor="@color/QuestionColor"
                                             android:layout_gravity="center_vertical"
-                                            android:text="@string/Register1" />
+                                            android:paddingLeft="@dimen/marginmedium"
+                                            android:text="@string/Register1"
+                                            android:textColor="@color/QuestionColor" />
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
                                         android:gravity="right"
+                                        android:orientation="horizontal"
                                         android:paddingTop="@dimen/marginsmall">
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:gravity="right"
-                                            android:textSize="@dimen/smalltsize"
-                                            android:paddingLeft="@dimen/marginmedium"
-                                            android:textColor="@color/QuestionColor"
                                             android:layout_gravity="center_vertical"
-                                            android:text="@string/Register2" />
+                                            android:gravity="right"
+                                            android:paddingLeft="@dimen/marginmedium"
+                                            android:text="@string/Register2"
+                                            android:textColor="@color/QuestionColor"
+                                            android:textSize="@dimen/smalltsize" />
                                     </LinearLayout>
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
                                     android:paddingLeft="@dimen/marginsmall"
-                                    android:paddingRight="@dimen/marginsmall"
-                                    android:orientation="vertical">
+                                    android:paddingRight="@dimen/marginsmall">
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -571,18 +567,19 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
                                         android:gravity="right"
+                                        android:orientation="horizontal"
                                         android:paddingTop="@dimen/marginsmall">
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:gravity="right"
-                                            android:textSize="@dimen/smalltsize"
-                                            android:paddingLeft="@dimen/marginmedium"
-                                            android:textColor="@color/QuestionColor"
                                             android:layout_gravity="center_vertical"
-                                            android:text="@string/Login2" />
+                                            android:gravity="right"
+                                            android:paddingLeft="@dimen/marginmedium"
+                                            android:text="@string/Login2"
+                                            android:textColor="@color/QuestionColor"
+                                            android:textSize="@dimen/smalltsize" />
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -591,46 +588,46 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:gravity="right"
-                                android:textSize="@dimen/smalltsize"
                                 android:paddingLeft="@dimen/margintextlogin"
                                 android:paddingRight="@dimen/margintextlogin"
+                                android:text="@string/Login2b"
                                 android:textColor="@color/QuestionColor"
-                                android:layout_gravity="center_vertical"
-                                android:text="@string/Login2b" />
+                                android:textSize="@dimen/smalltsize" />
 
                             <TextView
                                 style="@style/textbox4"
-                                android:layout_marginTop="@dimen/marginmedium"
                                 android:layout_marginBottom="@dimen/marginmedium"
+                                android:layout_marginTop="@dimen/marginmedium"
+                                android:background="@color/loginmethodscolor"
+                                android:paddingBottom="@dimen/marginsmall"
                                 android:paddingLeft="@dimen/marginsmall"
                                 android:paddingTop="@dimen/marginsmall"
-                                android:paddingBottom="@dimen/marginsmall"
-                                android:background="@color/loginmethodscolor"
                                 android:text="@string/googleLoginText" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:orientation="vertical"
                                 android:paddingLeft="@dimen/margingoogle"
-                                android:paddingRight="@dimen/margingoogle"
-                                android:orientation="vertical">
+                                android:paddingRight="@dimen/margingoogle">
 
                                 <LinearLayout
-                                    android:onClick="googleLoginMethod"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/marginmedium"
+                                    android:background="@color/googlebuttoncolor"
                                     android:gravity="center_vertical"
+                                    android:onClick="googleLoginMethod"
                                     android:orientation="horizontal"
-                                    android:background="@color/googlebuttoncolor">
+                                    android:padding="@dimen/marginmedium">
 
                                     <ImageView
                                         android:layout_width="@dimen/iconsize"
                                         android:layout_height="@dimen/iconsize"
-                                        android:paddingRight="@dimen/marginmedium"
                                         android:layout_gravity="center_vertical"
-                                        android:src="@drawable/googleloginicon"/>
+                                        android:paddingRight="@dimen/marginmedium"
+                                        android:src="@drawable/googleloginicon" />
 
                                     <View
                                         android:layout_width="1dp"
@@ -640,65 +637,87 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:paddingLeft="@dimen/marginmedium"
-                                        android:textColor="@color/questionbackcolor"
                                         android:layout_gravity="center_vertical"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/google1"
 
-                                        android:text="@string/google1" />
+                                        android:textColor="@color/questionbackcolor" />
+                                </LinearLayout>
+
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right"
+                                    android:orientation="horizontal"
+                                    android:paddingTop="@dimen/marginsmall">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:gravity="right"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/google2"
+                                        android:textColor="@color/QuestionColor"
+                                        android:textSize="@dimen/smalltsize" />
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:onClick="googleSignOutMethod"
                                     android:orientation="horizontal"
-                                    android:gravity="right"
                                     android:paddingTop="@dimen/marginsmall">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:gravity="right"
-                                        android:textSize="@dimen/smalltsize"
-                                        android:paddingLeft="@dimen/marginmedium"
-                                        android:textColor="@color/QuestionColor"
                                         android:layout_gravity="center_vertical"
-                                        android:text="@string/google2" />
+                                        android:gravity="center"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/googlesignout"
+                                        android:textColor="@color/QuestionColor"
+                                        android:textSize="@dimen/questiontextsize" />
                                 </LinearLayout>
+
                             </LinearLayout>
 
                             <TextView
                                 style="@style/textbox4"
-                                android:layout_marginTop="@dimen/marginmedium"
                                 android:layout_marginBottom="@dimen/marginmedium"
+                                android:layout_marginTop="@dimen/marginmedium"
+                                android:background="@color/loginmethodscolor"
+                                android:paddingBottom="@dimen/marginsmall"
                                 android:paddingLeft="@dimen/marginsmall"
                                 android:paddingTop="@dimen/marginsmall"
-                                android:paddingBottom="@dimen/marginsmall"
-                                android:background="@color/loginmethodscolor"
                                 android:text="@string/noLoginText" />
-
 
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:orientation="vertical"
                                 android:paddingLeft="@dimen/margingoogle"
-                                android:paddingRight="@dimen/margingoogle"
-                                android:orientation="vertical">
+                                android:paddingRight="@dimen/margingoogle">
 
                                 <LinearLayout
-                                    android:onClick="noLoginMethod"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/marginmedium"
+                                    android:background="@color/localbuttoncolor"
                                     android:gravity="center_vertical"
+                                    android:onClick="noLoginMethod"
                                     android:orientation="horizontal"
-                                    android:background="@color/localbuttoncolor">
+                                    android:padding="@dimen/marginmedium">
 
                                     <ImageView
                                         android:layout_width="@dimen/iconsize"
                                         android:layout_height="@dimen/iconsize"
-                                        android:paddingRight="@dimen/marginmedium"
                                         android:layout_gravity="center_vertical"
-                                        android:src="@drawable/mobile"/>
+                                        android:paddingRight="@dimen/marginmedium"
+                                        android:src="@drawable/mobile" />
 
                                     <View
                                         android:layout_width="1dp"
@@ -708,27 +727,28 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:paddingLeft="@dimen/marginmedium"
                                         android:layout_gravity="center_vertical"
-                                        android:textColor="@color/QuestionColor"
-                                        android:text="@string/nologin1" />
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/nologin1"
+                                        android:textColor="@color/QuestionColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
                                     android:gravity="right"
+                                    android:orientation="horizontal"
                                     android:paddingTop="@dimen/marginsmall">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:gravity="right"
-                                        android:textSize="@dimen/smalltsize"
-                                        android:paddingLeft="@dimen/marginmedium"
-                                        android:textColor="@color/QuestionColor"
                                         android:layout_gravity="center_vertical"
-                                        android:text="@string/nologin2" />
+                                        android:gravity="right"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/nologin2"
+                                        android:textColor="@color/QuestionColor"
+                                        android:textSize="@dimen/smalltsize" />
                                 </LinearLayout>
                             </LinearLayout>
 

@@ -15,9 +15,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -28,12 +28,12 @@
 
             <ImageView
                 style="@style/title"
-                android:layout_weight="0.3"
-                android:src="@drawable/title"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/marginmedium"
                 android:layout_marginRight="@dimen/marginmedium"
+                android:layout_weight="0.3"
 
-                android:layout_gravity="center"/>
+                android:src="@drawable/title" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -56,9 +56,9 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_marginTop="@dimen/marginmedium"
                             android:layout_marginLeft="@dimen/marginsmall"
                             android:layout_marginRight="@dimen/marginsmall"
+                            android:layout_marginTop="@dimen/marginmedium"
                             android:layout_weight="1">
 
                             <ImageView
@@ -67,7 +67,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/marginsmall"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/paint"/>
+                                android:src="@drawable/paint" />
 
                             <ImageView
                                 android:layout_width="match_parent"
@@ -103,9 +103,9 @@
                             <ImageView
                                 android:id="@+id/clock1"
                                 style="@style/anime"
-                                android:visibility="visible"
                                 android:layout_margin="@dimen/marginsmall"
-                                android:src="@drawable/cl12" />
+                                android:src="@drawable/cl12"
+                                android:visibility="visible" />
 
 
                         </RelativeLayout>
@@ -293,23 +293,23 @@
                             android:text="@string/WelcomeText" />
 
                         <LinearLayout
-                            android:onClick="LoginScreenShowUp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/marginsmall"
-                            android:layout_marginTop="@dimen/marginmedium"
                             android:layout_marginLeft="@dimen/marginvlarge"
                             android:layout_marginRight="@dimen/marginvlarge"
+                            android:layout_marginTop="@dimen/marginmedium"
+                            android:background="@color/loginscreenbuttoncolor"
                             android:gravity="center_vertical"
+                            android:onClick="LoginScreenShowUp"
                             android:orientation="horizontal"
-                            android:background="@color/loginscreenbuttoncolor">
+                            android:padding="@dimen/marginsmall">
 
                             <ImageView
                                 android:layout_width="@dimen/iconsize2"
                                 android:layout_height="@dimen/iconsize2"
-                                android:paddingRight="@dimen/marginmedium"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/allicon"/>
+                                android:paddingRight="@dimen/marginmedium"
+                                android:src="@drawable/allicon" />
 
                             <View
                                 android:layout_width="1dp"
@@ -319,10 +319,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="@dimen/marginmedium"
-                                android:textColor="@color/QuestionColor"
                                 android:layout_gravity="center_vertical"
-                                android:text="@string/loginScreenButtonText" />
+                                android:paddingLeft="@dimen/marginmedium"
+                                android:text="@string/loginScreenButtonText"
+                                android:textColor="@color/QuestionColor" />
                         </LinearLayout>
                     </LinearLayout>
                 </ScrollView>
@@ -342,10 +342,9 @@
 
                         <TextView
                             android:id="@+id/FinalResaltText"
-                            android:gravity="center_horizontal"
                             style="@style/textbox2"
-                            android:text="@string/ScoreTableTitle"
-                            />
+                            android:gravity="center_horizontal"
+                            android:text="@string/ScoreTableTitle" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -356,13 +355,13 @@
 
                             <WebView
                                 android:id="@+id/FinalResaltNames"
-                                android:gravity="left"
-                                style="@style/scoretabletextbox"/>
+                                style="@style/scoretabletextbox"
+                                android:gravity="left" />
 
                             <WebView
                                 android:id="@+id/FinalResaltScore"
-                                android:gravity="right"
-                                style="@style/scoretabletextbox"/>
+                                style="@style/scoretabletextbox"
+                                android:gravity="right" />
 
                         </RelativeLayout>
 
@@ -408,9 +407,8 @@
 
                         <WebView
                             android:id="@+id/StageLayersText"
-                            android:gravity="center_horizontal|center_vertical"
                             style="@style/textbox"
-                            />
+                            android:gravity="center_horizontal|center_vertical" />
 
                     </LinearLayout>
                 </ScrollView>
@@ -430,7 +428,7 @@
                     android:layout_marginLeft="@dimen/marginlarge"
                     android:layout_marginRight="@dimen/marginlarge"
                     android:src="@drawable/correct"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/wrong"
@@ -440,7 +438,7 @@
                     android:layout_marginLeft="@dimen/marginlarge"
                     android:layout_marginRight="@dimen/marginlarge"
                     android:src="@drawable/wrong"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -452,43 +450,42 @@
                         android:id="@+id/crack"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/crack"
                         android:onClick="gameOverHide"
-                        android:visibility="gone"/>
+                        android:src="@drawable/crack"
+                        android:visibility="gone" />
 
 
                     <ImageView
                         android:id="@+id/gameover"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/gameover"
                         android:onClick="gameOverHide"
                         android:padding="@dimen/gameoverpad"
-                        android:visibility="gone"/>
+                        android:src="@drawable/gameover"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
-                    <RelativeLayout
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/fireworkimage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/fireworkimage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:onClick="congratsHide"
-                            android:visibility="gone"/>
+                        android:onClick="congratsHide"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/congratsulation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/congratulation"
-                        android:padding="@dimen/marginlarge"
                         android:onClick="congratsHide"
-                        android:visibility="gone"/>
-
+                        android:padding="@dimen/marginlarge"
+                        android:src="@drawable/congratulation"
+                        android:visibility="gone" />
 
 
                 </RelativeLayout>
@@ -539,13 +536,13 @@
                             <TextView
                                 android:id="@+id/textView"
                                 style="@style/textbox4"
+                                android:layout_marginBottom="@dimen/marginmedium"
+                                android:layout_marginTop="@dimen/marginmedium"
                                 android:background="@color/loginmethodscolor"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true"
-                                android:paddingLeft="@dimen/marginsmall"
-                                android:layout_marginTop="@dimen/marginmedium"
-                                android:layout_marginBottom="@dimen/marginmedium"
                                 android:paddingBottom="@dimen/marginsmall"
+                                android:paddingLeft="@dimen/marginsmall"
                                 android:paddingTop="@dimen/marginsmall"
                                 android:text="@string/emailLoginText" />
 
@@ -563,7 +560,6 @@
                                 android:id="@+id/EmailEditBox"
                                 style="@style/edittextbox"
                                 android:hint="@string/email2"
-                                android:maxLength="20"
                                 android:textAllCaps="true" />
 
                             <TextView
@@ -578,39 +574,38 @@
                                 android:id="@+id/PasswordEditBox"
                                 style="@style/edittextbox"
                                 android:hint="@string/password2"
-                                android:maxLength="20"
                                 android:password="true"
                                 android:textAllCaps="true" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="@dimen/marginmedium"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:padding="@dimen/marginmedium">
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
                                     android:paddingLeft="@dimen/marginsmall"
-                                    android:paddingRight="@dimen/marginsmall"
-                                    android:orientation="vertical">
+                                    android:paddingRight="@dimen/marginsmall">
 
                                     <LinearLayout
-                                        android:onClick="emailRegisterMethod"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:padding="@dimen/marginsmall"
+                                        android:background="@color/registerbuttoncolor"
                                         android:gravity="center_vertical"
+                                        android:onClick="emailRegisterMethod"
                                         android:orientation="horizontal"
-                                        android:background="@color/registerbuttoncolor">
+                                        android:padding="@dimen/marginsmall">
 
                                         <ImageView
                                             android:layout_width="@dimen/iconsize"
                                             android:layout_height="@dimen/iconsize"
-                                            android:paddingRight="@dimen/marginsmall"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@drawable/registericon"/>
+                                            android:paddingRight="@dimen/marginsmall"
+                                            android:src="@drawable/registericon" />
 
                                         <View
                                             android:layout_width="1dp"
@@ -620,53 +615,54 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:paddingLeft="@dimen/marginsmall"
-                                            android:textColor="@color/QuestionColor"
                                             android:layout_gravity="center_vertical"
-                                            android:text="@string/Register1" />
+                                            android:paddingLeft="@dimen/marginsmall"
+                                            android:text="@string/Register1"
+                                            android:textColor="@color/QuestionColor" />
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
                                         android:gravity="right"
+                                        android:orientation="horizontal"
                                         android:paddingTop="@dimen/marginsmall">
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:gravity="right"
-                                            android:textSize="@dimen/smalltsize"
-                                            android:paddingLeft="@dimen/marginsmall"
-                                            android:textColor="@color/QuestionColor"
                                             android:layout_gravity="center_vertical"
-                                            android:text="@string/Register2" />
+                                            android:gravity="right"
+                                            android:paddingLeft="@dimen/marginsmall"
+                                            android:text="@string/Register2"
+                                            android:textColor="@color/QuestionColor"
+                                            android:textSize="@dimen/smalltsize" />
                                     </LinearLayout>
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
                                     android:paddingLeft="@dimen/marginsmall"
-                                    android:paddingRight="@dimen/marginsmall"
-                                    android:orientation="vertical">
+                                    android:paddingRight="@dimen/marginsmall">
 
                                     <LinearLayout
-                                        android:onClick="emailLoginMethod"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:padding="@dimen/marginsmall"
+                                        android:background="@color/loginbuttoncolor"
                                         android:gravity="center_vertical"
+                                        android:onClick="emailLoginMethod"
                                         android:orientation="horizontal"
-                                        android:background="@color/loginbuttoncolor">
+                                        android:padding="@dimen/marginsmall">
 
                                         <ImageView
                                             android:layout_width="@dimen/iconsize"
                                             android:layout_height="@dimen/iconsize"
-                                            android:paddingRight="@dimen/marginsmall"
                                             android:layout_gravity="center_vertical"
-                                            android:src="@drawable/loginicon"/>
+                                            android:paddingRight="@dimen/marginsmall"
+                                            android:src="@drawable/loginicon" />
 
                                         <View
                                             android:layout_width="1dp"
@@ -676,27 +672,28 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:paddingLeft="@dimen/marginsmall"
-                                            android:textColor="@color/QuestionColor"
                                             android:layout_gravity="center_vertical"
-                                            android:text="@string/Login1" />
+                                            android:paddingLeft="@dimen/marginsmall"
+                                            android:text="@string/Login1"
+                                            android:textColor="@color/QuestionColor" />
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
                                         android:gravity="right"
+                                        android:orientation="horizontal"
                                         android:paddingTop="@dimen/marginsmall">
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:gravity="right"
-                                            android:textSize="@dimen/smalltsize"
-                                            android:paddingLeft="@dimen/marginmedium"
-                                            android:textColor="@color/QuestionColor"
                                             android:layout_gravity="center_vertical"
-                                            android:text="@string/Login2" />
+                                            android:gravity="right"
+                                            android:paddingLeft="@dimen/marginmedium"
+                                            android:text="@string/Login2"
+                                            android:textColor="@color/QuestionColor"
+                                            android:textSize="@dimen/smalltsize" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -704,46 +701,46 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:gravity="right"
-                                android:textSize="@dimen/smalltsize"
                                 android:paddingLeft="@dimen/margintextlogin"
                                 android:paddingRight="@dimen/margintextlogin"
+                                android:text="@string/Login2b"
                                 android:textColor="@color/QuestionColor"
-                                android:layout_gravity="center_vertical"
-                                android:text="@string/Login2b" />
+                                android:textSize="@dimen/smalltsize" />
 
                             <TextView
                                 style="@style/textbox4"
-                                android:layout_marginTop="@dimen/marginmedium"
                                 android:layout_marginBottom="@dimen/marginmedium"
+                                android:layout_marginTop="@dimen/marginmedium"
+                                android:background="@color/loginmethodscolor"
+                                android:paddingBottom="@dimen/marginsmall"
                                 android:paddingLeft="@dimen/marginsmall"
                                 android:paddingTop="@dimen/marginsmall"
-                                android:paddingBottom="@dimen/marginsmall"
-                                android:background="@color/loginmethodscolor"
                                 android:text="@string/googleLoginText" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:orientation="vertical"
                                 android:paddingLeft="@dimen/margingoogle"
-                                android:paddingRight="@dimen/margingoogle"
-                                android:orientation="vertical">
+                                android:paddingRight="@dimen/margingoogle">
 
                                 <LinearLayout
-                                    android:onClick="googleLoginMethod"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/marginmedium"
+                                    android:background="@color/googlebuttoncolor"
                                     android:gravity="center_vertical"
+                                    android:onClick="googleLoginMethod"
                                     android:orientation="horizontal"
-                                    android:background="@color/googlebuttoncolor">
+                                    android:padding="@dimen/marginmedium">
 
                                     <ImageView
                                         android:layout_width="@dimen/iconsize"
                                         android:layout_height="@dimen/iconsize"
-                                        android:paddingRight="@dimen/marginmedium"
                                         android:layout_gravity="center_vertical"
-                                        android:src="@drawable/googleloginicon"/>
+                                        android:paddingRight="@dimen/marginmedium"
+                                        android:src="@drawable/googleloginicon" />
 
                                     <View
                                         android:layout_width="1dp"
@@ -753,65 +750,85 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:paddingLeft="@dimen/marginmedium"
-                                        android:textColor="@color/questionbackcolor"
                                         android:layout_gravity="center_vertical"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/google1"
 
-                                        android:text="@string/google1" />
+                                        android:textColor="@color/questionbackcolor" />
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right"
+                                    android:orientation="horizontal"
+                                    android:paddingTop="@dimen/marginsmall">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:gravity="right"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/google2"
+                                        android:textColor="@color/QuestionColor"
+                                        android:textSize="@dimen/smalltsize" />
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:onClick="googleSignOutMethod"
                                     android:orientation="horizontal"
-                                    android:gravity="right"
                                     android:paddingTop="@dimen/marginsmall">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:gravity="right"
-                                        android:textSize="@dimen/smalltsize"
-                                        android:paddingLeft="@dimen/marginmedium"
-                                        android:textColor="@color/QuestionColor"
                                         android:layout_gravity="center_vertical"
-                                        android:text="@string/google2" />
+                                        android:gravity="center"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/googlesignout"
+                                        android:textColor="@color/QuestionColor"
+                                        android:textSize="@dimen/questiontextsize" />
                                 </LinearLayout>
                             </LinearLayout>
 
                             <TextView
                                 style="@style/textbox4"
-                                android:layout_marginTop="@dimen/marginmedium"
                                 android:layout_marginBottom="@dimen/marginmedium"
+                                android:layout_marginTop="@dimen/marginmedium"
+                                android:background="@color/loginmethodscolor"
+                                android:paddingBottom="@dimen/marginsmall"
                                 android:paddingLeft="@dimen/marginsmall"
                                 android:paddingTop="@dimen/marginsmall"
-                                android:paddingBottom="@dimen/marginsmall"
-                                android:background="@color/loginmethodscolor"
                                 android:text="@string/noLoginText" />
-
 
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:orientation="vertical"
                                 android:paddingLeft="@dimen/margingoogle"
-                                android:paddingRight="@dimen/margingoogle"
-                                android:orientation="vertical">
+                                android:paddingRight="@dimen/margingoogle">
 
                                 <LinearLayout
-                                    android:onClick="noLoginMethod"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/marginmedium"
+                                    android:background="@color/localbuttoncolor"
                                     android:gravity="center_vertical"
+                                    android:onClick="noLoginMethod"
                                     android:orientation="horizontal"
-                                    android:background="@color/localbuttoncolor">
+                                    android:padding="@dimen/marginmedium">
 
                                     <ImageView
                                         android:layout_width="@dimen/iconsize"
                                         android:layout_height="@dimen/iconsize"
-                                        android:paddingRight="@dimen/marginmedium"
                                         android:layout_gravity="center_vertical"
-                                        android:src="@drawable/mobile"/>
+                                        android:paddingRight="@dimen/marginmedium"
+                                        android:src="@drawable/mobile" />
 
                                     <View
                                         android:layout_width="1dp"
@@ -821,27 +838,28 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:paddingLeft="@dimen/marginmedium"
                                         android:layout_gravity="center_vertical"
-                                        android:textColor="@color/QuestionColor"
-                                        android:text="@string/nologin1" />
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/nologin1"
+                                        android:textColor="@color/QuestionColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
                                     android:gravity="right"
+                                    android:orientation="horizontal"
                                     android:paddingTop="@dimen/marginsmall">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:gravity="right"
-                                        android:textSize="@dimen/smalltsize"
-                                        android:paddingLeft="@dimen/marginmedium"
-                                        android:textColor="@color/QuestionColor"
                                         android:layout_gravity="center_vertical"
-                                        android:text="@string/nologin2" />
+                                        android:gravity="right"
+                                        android:paddingLeft="@dimen/marginmedium"
+                                        android:text="@string/nologin2"
+                                        android:textColor="@color/QuestionColor"
+                                        android:textSize="@dimen/smalltsize" />
                                 </LinearLayout>
                             </LinearLayout>
 

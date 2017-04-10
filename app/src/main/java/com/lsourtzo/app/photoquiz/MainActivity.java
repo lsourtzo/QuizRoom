@@ -12,6 +12,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -60,6 +63,7 @@ import java.util.regex.Pattern;
 
 import static android.R.attr.data;
 import static android.R.attr.password;
+import static com.google.firebase.crash.FirebaseCrash.log;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom2;
 import static com.lsourtzo.app.photoquiz.R.anim.zoom3;
@@ -1489,6 +1493,7 @@ public class MainActivity extends AppCompatActivity {
     // email registration method
     public void emailRegisterMethod(View v) {
         FirebaseAuth.getInstance().signOut();
+        PlayerName = EdittTextReturn(svNameText);
         PlayerEmail = EdittTextReturn(svEmailEditBox);
         PlayerPassword = EdittTextReturn(svPasswordEditBox);
 
@@ -1511,9 +1516,9 @@ public class MainActivity extends AppCompatActivity {
                                         FirebaseUser user = task.getResult().getUser();
                                         sFUID = user.getUid();
                                         PlayerName = user.getDisplayName();
-                                        if (PlayerName==null || PlayerName.equals("")){
+                                        if (PlayerName == null || PlayerName.equals("")) {
                                             PlayerName = EdittTextReturn(svNameText);
-                                            if (PlayerName==null || PlayerName.equals("")){
+                                            if (PlayerName == null || PlayerName.equals("")) {
                                                 PlayerName = PlayerEmail;
                                             }
                                         }
@@ -1538,6 +1543,7 @@ public class MainActivity extends AppCompatActivity {
     // email login method
     public void emailLoginMethod(View v) {
         FirebaseAuth.getInstance().signOut();
+        PlayerName = EdittTextReturn(svNameText);
         PlayerEmail = EdittTextReturn(svEmailEditBox);
         PlayerPassword = EdittTextReturn(svPasswordEditBox);
 
@@ -1562,9 +1568,9 @@ public class MainActivity extends AppCompatActivity {
                                         FirebaseUser user = task.getResult().getUser();
                                         sFUID = user.getUid();
                                         PlayerName = user.getDisplayName();
-                                        if (PlayerName==null || PlayerName.equals("")){
+                                        if (PlayerName == null || PlayerName.equals("")) {
                                             PlayerName = EdittTextReturn(svNameText);
-                                            if (PlayerName==null || PlayerName.equals("")){
+                                            if (PlayerName == null || PlayerName.equals("")) {
                                                 PlayerName = PlayerEmail;
                                             }
                                         }
@@ -1610,6 +1616,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void googleSignOutMethod(View v){
+        mGoogleApiClient.connect();
+        mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+            @Override
+            public void onConnected(@Nullable Bundle bundle) {
+
+                FirebaseAuth.getInstance().signOut();
+                if(mGoogleApiClient.isConnected()) {
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(@NonNull Status status) {
+                            if (status.isSuccess()) {
+                                Log.d("logout", "User Logged out");
+                                signIn();
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onConnectionSuspended(int i) {
+                Log.d("logout", "Google API Client Connection Suspended");
+            }
+        });
+        }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1621,7 +1655,7 @@ public class MainActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 sFUID = account.getId();
-                if (PlayerName.equals("")){
+                if (PlayerName.equals("")) {
                     PlayerName = account.getDisplayName();
                 }
                 firebaseAuthWithGoogle(account);
