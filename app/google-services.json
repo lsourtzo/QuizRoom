@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "381849584838",
+    "firebase_url": "https://quizroom-6b2d7.firebaseio.com",
+    "project_id": "quizroom-6b2d7",
+    "storage_bucket": "quizroom-6b2d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381849584838:android:deb54dbd7736c252",
+        "android_client_info": {
+          "package_name": "com.lsourtzo.app.quizroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381849584838-ec61ub9bhqb45hnbs9ba95b2efns6ovg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lsourtzo.app.quizroom",
+            "certificate_hash": "222bda794ebd624224119c2b3e24b895439c6abf"
+          }
+        },
+        {
+          "client_id": "381849584838-1f72d7subo0aeqbnjbksobfl8jelfi80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lsourtzo.app.quizroom",
+            "certificate_hash": "441efd6138567466128dc16200d3ff29f5ede13b"
+          }
+        },
+        {
+          "client_id": "381849584838-9n0p6ib5nmjqg7e9pfh0icioom12utdu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lsourtzo.app.quizroom",
+            "certificate_hash": "cc4ae8ea0741b0571aea4870740fac978afd15aa"
+          }
+        },
+        {
+          "client_id": "381849584838-s47h5pjsabbgqb2ghv3buj16qmg4u6a3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7K5wipaLVawZqeOFMiE7UmSCy-4UenMI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381849584838-s47h5pjsabbgqb2ghv3buj16qmg4u6a3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

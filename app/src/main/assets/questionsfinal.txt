@@ -1,0 +1,95 @@
+radio	How many planets are there in our solar system ? Hint : Hm... last time I checked wasPluto a planet or not (confused)?	9	8	11	How do you want me to know! Even our astronomers haven't decided yet !	photo	solarsystem	null	4	null	55
+check	If we want to cook an italian carbonara, which of the following materials will we need? Check 2 out of 4!	Olive oil	Eggs	Sour cream	Mozzarella	photo	carbonara	null	1	2	30
+radio	Bob Dylan is one of the greatest contemporary artists. Last year the Swedish Academy awarded him the Nobel Prize for Literature. Did you know that Bob Dylan isn't his real name? Do you know what it is?	Robert Allen Zimmerman	Robert Zackerman	Robert Mac Ken	Robert Baratheon	photoaudio	bobdylan	bobdylan	1	null	45
+text	It's orange, it's hairy, it's fat and it's not Donald Trump. Can you recognise the animal you hear? Write your answer below.	null	null	null	null	photoaudio	lion	lion	LION	Lion	20
+radio	Can you  identify the capital city you see in the picture?	Paris	Berlin	Athens	Greece	photo	athens	null	3	null	20
+text	Can you spell the name of this tool correctly? 	null	null	null	null	photo	screwdriver	null	SCREWDRIVER	Screwdriver	50
+radio	Do you remember which year time stood still and the world changed? Innumerable were the dead and rivers of blood were shed. This is not the world we deserve.	2011	1999	2000	2001	photoaudio	tradecenter	tradecenter	4	null	55
+check	Do you know which of the parts below are found in a car? Check 2 out of 4!	Falangie	Engine oil filter	Wiper blades	Reval oil	photo	carparts	null	2	3	45
+text	Can you remember the release date of this song? 	null	null	null	null	photoaudio	finalcountdown	finalcountdown	1986	null	80
+radio	Water covers over 80% of our planet and supports our existence. Which one is the formula of water?	O2H	2H2O	H2O	O2H2	photo	water	null	3	null	30
+check	Let's check how good are you at geography. Which of the following countries doesn't get wet by the sea? Check 2 out of 4!	Romania	Belarus	Latvia	Czech Republic	photo	map	null	2	4	75
+radio	What year was Lionel Messi born in?	1981	1988	1984	1986	photo	messi	null	4	null	71
+check	"Which of the following actors took part in the movie ""The sixth sense""? Check 2 out of 4!"	Angelina Jolie	Haley Joel Osment	Bruce Willis	Julia Roberts	photoaudio	sixscense	sixscense	2	3	45
+text	Ηow good are you at math?	null	null	null	null	photo	math1	null	9	null	50
+radio	How many balls are there?	17	25	23	16	photo	ballpyramid	null	2	null	45
+text	Can you find out the parking number?	null	null	null	null	photo	math2	null	87	null	89
+text	Can you find Y?	null	null	null	null	photo	math3	null	1	null	45
+text	Ηow good are you at math?	null	null	null	null	photo	math4	null	13	null	45
+text	Can you find Y?	null	null	null	null	photo	math5	null	7	null	45
+radio	How many triangles can you count?	15	17	13	11	photo	triangle2	null	3	null	68
+text	How many triangles can you count?	null	null	null	null	photo	triangle1	null	5	null	25
+check	Which of the following animals can be found  on the African continent?? Check 2 out of 4!	Lion	Penguin	Tiger	Reindeer	photo	africa	null	1	2	50
+check	Which of the following elements are liquid at room temperature? Check 2 out of 4!	Nitrogen (N)	Mercury (Hg)	Barium (Ba)	Bromine (Br)	photo	periodictable	null	2	4	60
+check	Which of the following elements are solid at room temperature? Check 2 out of 4!	Nitrogen (N)	Mercury (Hg)	Barium (Ba)	Potassium (K)	photo	periodictable	null	3	4	65
+check	Which of the following elements are in a gassy state at room temperature? Check 2 out of 4!	Chlorine (Cl)	Nickel (Ni)	Xenon (Xe)	Potassium (K)	photo	periodictable	null	1	3	60
+check	Which of the following animals can breathe underwater? Check 2 out of 4!	Dolphin	Lionfish	Mullet	Seal	photo	undersea	null	2	3	63
+radio	Do you know how many atomic bomb tests have taken place from the beginning until now?	Under 1500	1501-2000	2001-2500	Over 2500	photoaudio	atomicbomptest	atomicbomptest	3	null	89
+radio	Who was the inventor of the telephone?	John Logie Baird	Alexander Graham Bell	Ransome Eli	Kathering J. Blodgett	photoaudio	phone	phone	2	null	57
+radio	Who was the inventor of the radio?	Lincoln Logs	Alexander Graham Bell	Ransome Eli	Guglielmo Marconi	photoaudio	oldradio	oldradio	4	null	55
+check	Which of the following devices was invented by Thomas Alva Edison? Check 2 out of 4!	Phonograph record	Electric light bulb 	ENIAC 	Microelectrode	photo	edison	null	1	2	58
+radio	Guess the celebrity.	DR. OZ	Joe Manganiello	Charlie Sheen	Mel Gibson	photo	cl_seen	null	3	null	30
+radio	Guess the celebrity.	Jack Nicholson	Gary Burghoff	Jack Black	Jason Alexander	photo	cl_alexander	null	4	null	30
+radio	Guess the celebrity.	Liam Neeson	Richard Gere	Steven Spielberg	Bill Gates	photo	cl_spielberg	null	3	null	20
+radio	Guess the celebrity.	Halle Berry	Angela Bassett	Viola Davis	Aretha Fraklin	photo	cl_halle	null	1	null	20
+radio	Guess the celebrity.	David Letterman	Luke Wilson	Jon Stewart	Alec Baldwin	photo	cl_baldwin	null	4	null	35
+radio	Guess the celebrity.	Jessica Alba	Eva Longoria	Jennifer Lopez	Eva Mendes	photo	cl_jenifer	null	3	null	20
+radio	Guess the celebrity.	Demi Moore	Keri Russel	Courteney Cox	Nelly Furtado	photo	cl_courteney	null	3	null	25
+radio	Guess the celebrity.	Molly Shannon	Sally Field	Michelle Williams	Naomi Watts	photo	cl_sally	null	2	null	45
+radio	This one is intended to be a confidence builder. These are diamonds. Diamonds are pure:	Boron	Iron	Carbon	Nitrogen	photo	ch_diam	null	3	null	25
+radio	You may encounter this element in pure form fairly often. This metallic element is:	Brass	Copper	Gold	Bronze	photo	ch_copper	null	2	null	45
+radio	This metallic element is a liquid at room temperature. It is:	Bromine	Iodine	Iron	Mercury	photo	ch_mercurry	null	4	null	32
+radio	This yellow element is a component of gunpowder. The area being mined is a hint. This element is:	Chlorine (Cl)	Copper	Gold	Sulfur	photo	ch_sulfur	null	4	null	65
+radio	This metal occurs in its pure form, but it is usually encountered as an alloy. The element is:	Brass	Gold	Iridium	Platinum	photo	ch_gold	null	2	null	30
+radio	The air you breathe is mostly this element. In liquid form, it's extremely cold. The element is:	Clorine	Hydrogen	Oxygen	Nitrogen	photo	ch_nitrogen	null	4	null	40
+radio	You would wear protective gloves to hold this radioactive element, which feels warm. It is:	Cerium	Lead	Uranium	Iron	photo	ch_uranium	null	3	null	25
+radio	The majority of the picture is of one element. It's the most abundant element in the universe. This element is:	Carbon	Helium	Hydrogen	Nitrogen	photo	ch_hydrogen	null	3	null	45
+radio	Find the name of the group/artist.	Destiny's Child	Ellie Goulding	Spice Girls	Pink	photoaudio	song_sg	song_sg	3	null	35
+radio	Find the name of the song.	The Joker	I am Singer	I am Smoker	I am Lover	photoaudio	song_joker	song_joker	1	null	55
+radio	In which cartoon movie do we hear this song?	Finding Nemo	Finding Dorry 	Zootopia	Despicable Me 2	photoaudio	song_zootopia	song_zootopia	3	null	40
+radio	In which Rocky movie do we hear this song?	Rocky II	Rocky III	Rocky I	Cocky IV	photoaudio	song_rocky	song_rocky	2	null	45
+check	Which of the following actors have been played the Batman? Check 2 out of 4!	Lewis G Wilson	Jack Nicholson	Val Kilmer	Luke Wilson	photoaudio	batman	batman	1	3	65
+check	"Which of the following actors have played in ""The silence of the lambs""? Check 2 out of 4!"	Jack Nicholson	Anthony Heald	Jodie Foster	Val Kilmer	photoaudio	lambssillence	lambssillence	2	3	54
+check	"Which of the following actors have played in ""The Shawshank Redemption""? Check 2 out of 4!"	Jack Nicholson	Anthony Heald	Morgan Freeman	Tim Robbins	photoaudio	shawshank	shawshank	3	4	56
+radio	What's next?	A	B	C	D	photo	iq1	null	2	null	35
+radio	What's next?	A	B	C	D	photo	iq2	null	1	null	35
+radio	What's next?	A	B	C	D	photo	iq4	null	1	null	35
+radio	What's next?	A	B	C	D	photo	iq5	null	1	null	35
+radio	What's next?	A	B	C	D	photo	iq6	null	4	null	35
+radio	Which one doesn't belong here?	1	2	3	4	photo	iq3	null	3	null	35
+radio	Can you  identify the city you see in the picture?	Sydney	Paris	Berlin	Pisa	photo	paris	null	2	null	30
+radio	Can you  identify the  city you see in the picture?	London	Milan	Sydney	Rome	photo	london	null	1	null	30
+radio	Can you  identify the city you see in the picture?	London	Paris	Berlin	Rome	photo	berlin	null	3	null	30
+radio	Can you  identify the  city you see in the picture?	Milan	Moscow	Pisa	Rome	photo	rome	null	4	null	30
+radio	Can you  identify the city you see in the picture?	Pisa	London	Berlin	Rome	photo	pisa	null	1	null	30
+radio	Can you  identify the  city you see in the picture?	Milan	Hong Kong	New York	Moscow	photo	milan	null	1	null	30
+radio	Can you  identify the city you see in the picture?	Paris	New York	Hong Kong	Rome	photo	paris2	null	1	null	55
+radio	Can you  identify the  city you see in the picture?	New York	Hong Kong	Rome	Teipei	photo	hongkong	null	2	null	65
+radio	Can you  identify the city you see in the picture?	Milan	Hong Kong	Sydney	Teipei	photo	sydney	null	3	null	30
+radio	Can you  identify the city you see in the picture?	New York	Hong Kong	Berlin	Teipei	photo	taipei	null	4	null	85
+radio	Can you  identify the  city you see in the picture?	Madrid	Rome	Paris	Berlin	photo	madrid	null	1	null	65
+radio	Can you  identify the city you see in the picture?	Dubai	Hong Kong	Sydney	Alexandria	photo	dubai	null	1	null	54
+radio	Can you  identify the  city you see in the picture?	New York	Dubai	Hong Kong	Teipei	photo	ny	null	1	null	45
+radio	Can you  identify the city you see in the picture?	Chicago	New York	Hong Kong	Sydney	photo	chicago	null	1	null	65
+radio	Can you  identify the  city you see in the picture?	Rio De Janeiro	New York	Hong Kong	Dubai	photo	riodejaneiro	null	1	null	55
+radio	Can you  identify the city you see in the picture?	Moscow	Dubai	Hong Kong	Teipei	photo	moscow	null	1	null	35
+radio	Can you  identify the  city you see in the picture?	Barcelona	Madrid	Rome	Hong Kong	photo	barcelona	null	1	null	80
+check	Which two of the following cities are in Italy.	Milan	Rome	Athens	Manchester	photo	italy	null	1	2	40
+check	Which two of the following cities are in France.	Paris	Lion	Milan	Beograd	photo	france	null	1	2	35
+check	Which two of the following cities are in Germany.	Munich	Berlin	MIlan	Barcelona	photo	germany	null	1	2	45
+check	Which two of the following cities are in Greece.	Athens	Chania	Alexandria	Rome	photo	greece	null	1	2	40
+check	Which two of the following cities are in UK.	Manchester	New Castle	MIlan	Perth	photo	uk	null	1	2	41
+check	Which two of the following cities are in USA	Chicago	Mexico City	Kansas	Westworld	photo	usa	null	1	2	42
+check	Which two of the following cities are in Australia.	Perth	Sydney	Hong Kong	Teipei	photo	australia	null	1	2	43
+check	Which two of the following cities are in Spain	Madrid	Barcelona	Perth	Lion	photo	spain	null	1	2	30
+check	In which two of the following continents you find an animal like this in nature?	Asia	Africa	North America	Australia	photoaudio	elephant	elephant	1	2	35
+check	In which two of the following continents you find an animal like this in nature?	South America	Asia	Europe	Australia	photoaudio	tiger	tiger	1	2	35
+check	In which two of the following continents you find an animal like this in nature?	Antarctica	Africa	North Pole	Greenland	photoaudio	penguin	penguin	1	2	35
+check	In which two of the following continents you find an animal like this in nature?	Africa	Asia	North America	South America	photoaudio	puma	puma	1	2	65
+check	In which two of the following continents you find an animal like this in nature?	Africa	Asia	North America	South America	photoaudio	rhino	rhino	1	2	35
+check	"Which two of the following would you use to make a Greek Salad ;"	Onion's	Tomato's	Ham	Mozzarella	photo	greeksalad	null	1	2	36
+check	"Which two of the following would you use to make apple strudel ;"	Sugar	Butter	Eggs	Orange Juice	photo	applestrudel	null	1	2	38
+check	"Which two of the following would you use to make Danish Pastry ;"	Salt	Milk	Chocolate	Orange Juice	photo	danishpastry	null	1	2	65
+check	"Which two of the following would you use to make Spanish Paella ;"	Seafoods	Beans	Sugar	Tomato's	photo	paella	null	1	2	54
+check	"Which two of the following are leap years;"	2008	2016	2010	2014	photo	leapyear	null	1	2	40
+check	Which two of the following are windows antivirus ?	McAfee	AVG	KeyStone	MpiriMpiriMpo	photo	antivirus	null	1	2	35
