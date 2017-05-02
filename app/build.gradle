@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'QuizRoomKey'
             keyPassword 'al12132'
-            storeFile file('C:/Users/lsourtzo/Dropbox/.Android_Projects/QuizRoom_V3.1/keystore/android.jks')
+            storeFile file('keystore/android.jks')
             storePassword 'al12132'
         }
     }
